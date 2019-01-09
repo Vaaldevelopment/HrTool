@@ -1,0 +1,50 @@
+.nav-link i {
+    font-size: 24px;
+    margin-left: 25px;
+}
+
+.dropdown-menu {
+    left: auto;
+    right: 0;
+    top: 125%;
+    min-width: 320px;
+    padding: 0;
+}
+
+.dropdown-item {
+    white-space: normal;
+    padding: 0.5rem;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.notification-heading {
+    background-color: #252946;
+    width: 100%;
+    padding: 5% 2%;
+    text-align: center;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.notificatio-icon {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.notificatio-mesg {
+    display: table-cell;
+    vertical-align: top;
+    padding: .7rem 0 0 1rem;
+}
+
+
+@media only screen and (max-width: 400px){
+    .dropdown-menu {
+        right: -100%;
+        top: 125%;
+        min-width: 350px;
+    }
+}

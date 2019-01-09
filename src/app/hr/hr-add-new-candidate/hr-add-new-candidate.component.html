@@ -1,0 +1,321 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          Candidates Information
+        </div>
+        <div class="card-body">
+          <form>
+            <!--Row 1  -->
+            <div class="row">
+              <div class="col-sm-4 col-lg-2">
+                <div class="form-group">
+                  <label for="upload-cv">Upload CV</label><br>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input form-control" id="upload-cv">
+                    <label class="custom-file-label" for="upload-cv">Choose file </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-lg-2 form-group">
+                <label for="rel-exp">Relevant Experience</label><br>
+                <input class="form-control" type="text" id="rel-exp">
+              </div>
+              <div class="col-sm-4 col-lg-2 form-group">
+                <label for="pri-skills">Primary Skills</label><br>
+                <input class="form-control" type="text" id="pri-skills">
+              </div>
+              <div class="col-sm-4 col-lg-2 form-group">
+                <label for="sec-skills">Secondary Skills</label><br>
+                <input class="form-control" type="text" id="sec-skills">
+              </div>
+              <div class="col-sm-4 col-lg-2 form-group">
+                <label for="notice-period">Notice Period</label><br>
+                <input class="form-control" type="text" id="notice-period">
+              </div>
+              <div class="col-sm-4 col-lg-2 form-group">
+                <label for="first-contact">Date of 1st Contact </label><br>
+                <input class="form-control" type="date" id="first-contact">
+              </div>
+            </div>
+            <!--Row 2  -->
+
+            <!-- <div id="accordian"> -->
+            <div class="card">
+              <div class="card-header card-link " data-toggle="collapse" href="#collapseOne">
+                <h6 class="accordion-toggle">
+                  Personal Details
+                </h6>
+              </div>
+              <div id="collapseOne" class="collapse show">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="first-name">First Name</label><br>
+                      <input class="form-control" type="text" id="first-name">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="last-name">Last Name</label><br>
+                      <input class="form-control" type="text" id="last-name">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="email">Email</label><br>
+                      <input class="form-control" type="email" id="email">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="phone">Phone</label><br>
+                      <input class="form-control" type="tel" id="phone">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="curr-location">Current Location</label><br>
+                      <input class="form-control" type="text" id="cur-location">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="res-relocation">Reason for Relocation</label><br>
+                      <input class="form-control" type="text" id="res-relocation">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Row 3 Past Experience  -->
+            <div class="card mt-3">
+              <div class="card-header card-link" data-toggle="collapse" href="#collapseTwo">
+                <h6 class="accordion-toggle">
+                  Past Experience Details
+                </h6>
+              </div>
+              <div id="collapseTwo" class="collapse show">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cur-employer">Current Employer</label><br>
+                      <input class="form-control" type="text" id="cur-employer">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="dur-cur-employer">Duration with Current Employer</label><br>
+                      <input class="form-control" type="text" id="dur-cur-employer">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="res-change">Reason for Change</label><br>
+                      <input class="form-control" type="email" id="res-change">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cur-des">Current Designation</label><br>
+                      <input class="form-control" type="tel" id="cur-des">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="curr-CTC">Current CTC</label><br>
+                      <input class="form-control" type="text" id="curr-CTC">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="exp-CTC">Expected CTC</label><br>
+                      <input class="form-control" type="text" id="exp-CTC">
+                    </div>
+                    <div class="col-12 form-group">
+                      <label for="job-des">Job Description</label><br>
+                      <textarea class="form-control" name="job-des" id="job-des" rows="5"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Academic Details  -->
+            <div class="card mt-3">
+              <div class="card-header card-link" data-toggle="collapse" href="#collapseThree">
+                <h6 class="accordion-toggle">
+                  Academic Details
+                </h6>
+              </div>
+              <div id="collapseThree" class="collapse show">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cur-employer">Post Graduation</label><br>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Degree</button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Masters in Science</a>
+                            <a class="dropdown-item" href="#">Management</a>
+                            <a class="dropdown-item" href="#">Diploma</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="% or 'grades'">
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cur-employer">Graduation</label><br>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Degree</button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Science</a>
+                            <a class="dropdown-item" href="#">Engineering</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="% or 'grades'">
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cur-employer">12th</label><br>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">University</button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Savitribai Phule University</a>
+                            <a class="dropdown-item" href="#">Savitribai Phule University</a>
+                            <a class="dropdown-item" href="#">Savitribai Phule University</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="% or 'grades'">
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cur-employer">10th</label><br>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Board</button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">CBSC</a>
+                            <a class="dropdown-item" href="#">ICSC</a>
+                            <a class="dropdown-item" href="#">SSC</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="% or 'grades'">
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cert-1">Other Certification </label><br>
+                      <div class="input-group">
+                        <input class="form-control" type="text" id="cert-1">
+                        <input class="form-control" type="text" id="cert-1-per" placeholder="% / grades">
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cert-2">Other Certification </label><br>
+                      <div class="input-group">
+                        <input class="form-control" type="text" id="cert-2">
+                        <input class="form-control" type="text" id="cert-2-per" placeholder="% / grades">
+                      </div>
+
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="cert-3">Other Certification </label><br>
+                      <div class="input-group">
+                        <input class="form-control" type="text" id="cert-3">
+                        <input class="form-control" type="text" id="cert-3-per" placeholder="% / grades">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--HR Details  -->
+            <div class="card mt-3 mb-3">
+              <div class="card-header card-link" data-toggle="collapse" href="#collapseFour">
+                <h6 class="accordion-toggle">
+                  HR Details
+                </h6>
+              </div>
+              <div id="collapseFour" class="collapse show">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="position">Open Position</label><br>
+                      <select class="form-control" id="position">
+                        <option>Application Engineering</option>
+                        <option>UX Designer</option>
+                        <option>Software Developer</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="recruiter">Assigned Recruiter / HR</label><br>
+                      <select class="form-control" id="recruiter">
+                        <option>ABCD</option>
+                        <option>XYZ</option>
+                        <option>PQR</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="manager">Recruiting Manager</label><br>
+                      <select class="form-control" id="manager">
+                        <option>ABCD</option>
+                        <option>XYZ</option>
+                        <option>PQR</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="status">Status</label><br>
+                      <select class="form-control" id="manager">
+                        <option>Waiting Approval</option>
+                        <option>Selected</option>
+                        <option>On hold</option>
+                        <option>1st Round</option>
+                        <option>2nd Round</option>
+                        <option>HR Round</option>
+                        <option>MD Interview</option>
+                        <option>Apti</option>
+                        <option>Machine Test</option>
+                        <option>Offered</option>
+                        <option>Joined</option>
+                        <option>Confirmed</option>
+                        <option>Backed Out</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="status-call">Status Call</label><br>
+                      <input class="form-control" type="date" id="status-call">
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="interviewer">Interviewer</label><br>
+                      <select class="form-control" id="interviewer">
+                        <option>ABCD</option>
+                        <option>XYZ</option>
+                        <option>PQR</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-4 col-lg-2 form-group">
+                      <label for="status-call">Interview Date & Time</label><br>
+                      <input class="form-control" type="date" id="status-call">
+                    </div>
+                    <div class="col-sm-8 col-lg-10 form-group">
+                      <label for="comments">Additional Comments</label><br>
+                      <textarea class="form-control" name="comments" id="comments" rows="5"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </form>
+        </div>
+        <div class="card-footer">
+          <a href="/app-view-candidate" class="btn btn-primary mr-3"> Save </a>
+          <a href="/app-hr-current-opening" class="btn btn-outline-primary"> Save & Suggest</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
