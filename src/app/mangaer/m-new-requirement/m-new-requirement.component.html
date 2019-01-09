@@ -1,0 +1,300 @@
+<div class="container-fluid">
+  <!-- Heading for page -->
+  <div class="row pb-3 pt-3">
+    <div class="col-lg-12">
+      <strong>Create new requirement</strong>
+    </div>
+  </div>
+  <!-- Heading for page -->
+</div>
+
+<div class="container-fluid pb-3 shadow-sm bg-white" *ngIf="!message">
+
+  <!-- Select Preset dropdown -->
+  <div class="row pb-3 pt-3">
+    <div class="col-lg-12">
+      <form class="form-inline">
+        <div class="form-group ">
+          <label for="select_preset" class="mr-3">Select Preset</label>
+          <select name="" id="select_preset" class="form-control">
+            <option value="">Select</option>
+            <option value="">UI/UX Designer</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Select Preset dropdown -->
+
+  <form>
+
+    <div class="row">
+
+      <!-- Job Title -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" class="form-control" id="jobTitle" placeholder="" >
+        </div>
+      </div>
+      <!-- Job Title -->
+
+      <!-- Number of Positions -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="noOfPosition">Number of Position</label>
+          <input type="number" class="form-control" id="noOfPosition" placeholder="">
+        </div>
+      </div>
+      <!-- Number of Positions -->
+
+      <!-- Department -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group">
+            <label for="department">Department</label>
+            <select class="form-control" id="department">
+              <option>Select</option>
+              <option>Business System</option>
+              <option>Sales</option>
+              <option>CAD/CAM</option>
+              <option>Marketing</option>
+              <option>Human resource</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Department -->
+
+      <!-- Job type -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group">
+            <label for="jobType">Job Type</label>
+            <select class="form-control" id="jobType">
+              <option>Permanent</option>
+              <option>Intern</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Job type -->
+
+    </div>
+
+    <div class="row">
+
+      <!-- Budget/Salary for position -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="budget">Budget </label>
+          <input type="number" class="form-control" id="budget" placeholder="">
+
+        </div>
+      </div>
+      <!-- Budget/Salary for position -->
+
+      <!-- Work Experience -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="experience">Experience</label>
+          <input type="number" class="form-control" id="experience" placeholder="">
+        </div>
+      </div>
+      <!-- Work Experience -->
+
+      <!-- Opening Date -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="openingDate">Opening Date</label>
+          <input type="date" name="" id="openingDate" class="form-control">
+        </div>
+      </div>
+      <!-- Opening Date -->
+
+      <!-- closing Date -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="closingDate">Closing Date</label>
+          <input type="date" name="" id="closingDate" class="form-control">
+        </div>
+      </div>
+      <!-- closing Date -->
+
+    </div>
+
+    <div class="row">
+
+      <!-- location -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <label for="location">Location</label>
+          <select name="" id="location" class="form-control">
+            <option value="">Pune</option>
+            <option value="">Cincinnati</option>
+          </select>
+        </div>
+      </div>
+      <!-- location -->
+
+      <!-- Upload Job Description -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <label for="">Select JD</label>
+        <div class="input-group mb-3">
+          <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Create JD</button>
+          </div>
+        </div>
+      </div>
+      <!-- Upload Job Description -->
+
+      <!-- Request to -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group">
+            <label for="requstTo">Request to</label>
+            <select class="form-control" id="requstTo">
+              <option>Manager name</option>
+              <option>Intern</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Request to -->
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <strong>Select Tests</strong>
+      </div>
+    </div>
+
+    <div class="row pt-3 pb-3">
+
+      <!-- Option Aptitude -->
+      <div class="col-lg-2 col-md-3">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="aptitude">
+          <label class="custom-control-label" for="aptitude">Aptitude</label>
+        </div>
+      </div>
+      <!-- Option Aptitude -->
+
+      <!-- Option Machine Test -->
+      <div class="col-lg-2 col-md-3">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="machineTest">
+          <label class="custom-control-label" for="machineTest">Machine Test</label>
+        </div>
+      </div>
+      <!-- Option Machine Test -->
+
+      <!-- Option Technical Interview -->
+      <div class="col-lg-3 col-md-4">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="technicalInterview">
+          <label class="custom-control-label" for="technicalInterview">Technical Interview</label>
+        </div>
+      </div>
+      <!-- Option Technical Interview -->
+
+      <!-- Option HR Interview -->
+      <div class="col-lg-2 col-md-3">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="hrInterview">
+          <label class="custom-control-label" for="hrInterview">HR Interview</label>
+        </div>
+      </div>
+      <!-- Option HR Interview -->
+
+      <!-- Option MD Interview -->
+      <div class="col-lg-2 col-md-3">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="mdInterview">
+          <label class="custom-control-label" for="mdInterview">MD Interview</label>
+        </div>
+      </div>
+      <!-- Option MD Interview -->
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+      <!-- Select Aptitude Document -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <label for="">Select Aptitude Doc</label>
+        <div class="input-group mb-3">
+          <select class="custom-select" id="selectApti" aria-label="Example select with button addon">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Create New</button>
+          </div>
+        </div>
+      </div>
+      <!-- Select Aptitude Document -->
+
+      <!-- Select Machine Test -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <label for="">Select Machine Test</label>
+        <div class="input-group mb-3">
+          <select class="custom-select" id="selectMachine" aria-label="Example select with button addon">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Create New</button>
+          </div>
+        </div>
+      </div>
+      <!-- Select Machine Test -->
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="commnets">Additional Note</label>
+          <textarea class="form-control" rows="5"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <button class="btn btn-primary mr-3" (click)="showMessage()">Get Approval</button>
+        <button class="btn btn-outline-secondary">Save as Preset</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+
+<div class="container-fluid bg-white p-5 mt-4" >
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h4>
+        Your request has been sent!
+      </h4>
+      <small class="text-muted">You will recieve notification soon</small>
+      <br> <br>
+      <a  [routerLink]="['/m-dashboard']" routerLinkActive="router-link-active"  class="btn btn-primary">Back to Dashboard</a>
+    </div>
+  </div>
+</div>
