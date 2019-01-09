@@ -15,8 +15,11 @@ import { HrAddNewCandidateComponent } from './hr/hr-add-new-candidate/hr-add-new
 import { HrViewCandidateComponent } from './hr/hr-view-candidate/hr-view-candidate.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { LoginComponent } from './login/login.component';
+import { HttpModule } from '@angular/http';
+import { UserLoginService } from './services/user-login.service';
 export const appRoutes: Routes = [
-  { path: '', component: HeaderNavComponent },
+  { path: '', component: LoginComponent },
   { path: 'test', component: TestComponent },
   { path: 'm-new-requirement', component: MNewRequirementComponent },
   { path: 'm-dashboard', component: MDashboardComponent },
@@ -26,7 +29,8 @@ export const appRoutes: Routes = [
   { path: 'hr-add-new-candidate', component: HrAddNewCandidateComponent },
   { path: 'hr-view-candidate', component: HrViewCandidateComponent },
   { path: 'user-profile', component: UserProfileComponent },
-  { path: 'notifications', component: NotificationsComponent }
+  { path: 'notifications', component: NotificationsComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
@@ -42,17 +46,19 @@ export const appRoutes: Routes = [
     HrAddNewCandidateComponent,
     HrViewCandidateComponent,
     UserProfileComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true, useHash: true } // <-- debugging purposes only
     ),
   ],
-  providers: [],
+  providers: [UserLoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

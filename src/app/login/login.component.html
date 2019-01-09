@@ -1,0 +1,114 @@
+<div class="container-fluid pt-4" *ngIf="!message && !verifyMessage">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-sm-6 p-5 bg-white shadow">
+      <h4>Welcome</h4>
+      <hr>
+      <form>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+            </div>
+            <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-eye" aria-hidden="true"></i></span>
+            </div>
+            <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-block btn-primary">Login </button>
+      </form>
+      <br>
+      <a (click)="userAccount()">Create new account.</a>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pt-4" *ngIf="message">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-sm-6 p-5 bg-white shadow">
+      <h4>Create new account</h4>
+      <br>
+      <form #userRegistrationForm="ngForm" ngNativeValidate (ngSubmit)="createAccount()">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+            </div>
+            <input type="text" class="form-control" id="fName" name="fName" aria-describedby="fName" [(ngModel)]="user.userFirstLastName"
+              #first="ngModel" placeholder="First & Last Name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+            </div>
+            <input type="email" class="form-control" id="email" name="userEmail" aria-describedby="email" [(ngModel)]="userEmail" placeholder="Email"
+              required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-eye" aria-hidden="true"></i></span>
+            </div>
+            <input type="password" class="form-control" id="password" name="password" aria-describedby="password" (onchange)="validatePassword()"
+              [(ngModel)]="user.userPassword" placeholder="Password" required pattern="(?=.*\d)(?=.*[A-Za-z]).{8,}" title="Must contain at least one number and at least 8 or more characters">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-eye" aria-hidden="true"></i></span>
+            </div>
+            <input type="password" class="form-control" id="cPassword" name="cPassword" aria-describedby="cPassword" (keyup)="validatePassword()" [(ngModel)]="user.userConfirmPassword" placeholder="Confirm Password" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+            </div>
+            <select name="role" class="form-control" [(ngModel)]="user.userRole" required>
+              <option value="" selected="selected">Select Role </option>
+              <option *ngFor="let role of userRole" value={{role.user_role_id}}>{{role.user_role_name_initial}}</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-block btn-primary">Create Account </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pt-4" *ngIf="verifyMessage">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-sm-6 p-5 bg-white shadow text-center">
+      <h2 class="text-primary"><i class="fa fa-thumbs-up" aria-hidden="true"></i></h2>
+      <p>
+        Everything looks good!!
+      </p>
+      <h3>We sent you a code</h3>
+      <p>
+        Enter it below to verify asdasdads@asdasdsad.com.
+      </p>
+      <form action="">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="number" class="form-control" id="verification_code" aria-describedby="verification_code" placeholder="Verification Code">
+          </div>
+        </div>
+        <button class="btn btn-primary">Verify</button>
+      </form>
+      <br>
+      <p>
+        <a href="#!">Didn't receive email?</a>
+      </p>
+    </div>
+  </div>
+</div>
