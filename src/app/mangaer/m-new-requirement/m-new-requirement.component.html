@@ -8,17 +8,16 @@
   <!-- Heading for page test -->
 </div>
 
-<div class="container-fluid pb-3 shadow-sm bg-white" *ngIf="!message">
+<div class="container-fluid pb-3 shadow-sm bg-white">
 
   <!-- Select Preset dropdown -->
   <div class="row pb-3 pt-3">
     <div class="col-lg-12">
       <form class="form-inline">
         <div class="form-group ">
-          <label for="select_preset" class="mr-3">Select Preset</label>
-          <select name="" id="select_preset" class="form-control">
-            <option value="">Select</option>
-            <option value="">UI/UX Designer</option>
+          <label for="presets" class="mr-3">Select Preset</label>
+          <select id="presets" name="presets" class="form-control" [(ngModel)]="newRequirement.presets">
+            <option *ngFor="let preset of presets" value="{{preset.req_id}}">{{preset?preset.job_title:"No stored presets"}}</option>
           </select>
         </div>
       </form>
@@ -34,7 +33,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="jobTitle">Job Title</label>
-          <input type="text" class="form-control" id="jobTitle" placeholder="" >
+          <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="" [(ngModel)]="newRequirement.jobTitle">
         </div>
       </div>
       <!-- Job Title -->
@@ -43,7 +42,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="noOfPosition">Number of Position</label>
-          <input type="number" class="form-control" id="noOfPosition" placeholder="">
+          <input type="number" class="form-control" name="noOfPosition" id="noOfPosition" placeholder="" [(ngModel)]="newRequirement.numOfPos">
         </div>
       </div>
       <!-- Number of Positions -->
@@ -53,13 +52,8 @@
         <div class="form-group">
           <div class="form-group">
             <label for="department">Department</label>
-            <select class="form-control" id="department">
-              <option>Select</option>
-              <option>Business System</option>
-              <option>Sales</option>
-              <option>CAD/CAM</option>
-              <option>Marketing</option>
-              <option>Human resource</option>
+            <select class="form-control" id="department" name="department" [(ngModel)]="newRequirement.department" required>
+              <option *ngFor="let dep of department" value="{{dep.dep_id}}">{{dep.dep_name}}</option>
             </select>
           </div>
         </div>
@@ -71,7 +65,8 @@
         <div class="form-group">
           <div class="form-group">
             <label for="jobType">Job Type</label>
-            <select class="form-control" id="jobType">
+            <select class="form-control" id="jobType" name="jobType" [(ngModel)]="newRequirement.jobType">
+              <option selected disabled="disabled">Select Job Type</option>
               <option>Permanent</option>
               <option>Intern</option>
             </select>
@@ -88,7 +83,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="budget">Budget </label>
-          <input type="number" class="form-control" id="budget" placeholder="">
+          <input type="number" class="form-control" id="budget" name="budget" placeholder="" [(ngModel)]="newRequirement.budget">
 
         </div>
       </div>
@@ -98,7 +93,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="experience">Experience</label>
-          <input type="number" class="form-control" id="experience" placeholder="">
+          <input type="text" class="form-control" id="experience" name="experience" placeholder="" [(ngModel)]="newRequirement.experience">
         </div>
       </div>
       <!-- Work Experience -->
@@ -107,7 +102,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="openingDate">Opening Date</label>
-          <input type="date" name="" id="openingDate" class="form-control">
+          <input type="date" name="openingDate" id="openingDate" class="form-control" [(ngModel)]="newRequirement.openingDate">
         </div>
       </div>
       <!-- Opening Date -->
@@ -116,7 +111,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="closingDate">Closing Date</label>
-          <input type="date" name="" id="closingDate" class="form-control">
+          <input type="date" name="closingDate" id="closingDate" class="form-control" [(ngModel)]="newRequirement.closingDate">
         </div>
       </div>
       <!-- closing Date -->
@@ -129,9 +124,8 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="location">Location</label>
-          <select name="" id="location" class="form-control">
-            <option value="">Pune</option>
-            <option value="">Cincinnati</option>
+          <select name="location" id="location" class="form-control" [(ngModel)]="newRequirement.location">
+              <option *ngFor="let loc of location" value="{{loc.name}}">{{loc.name}}</option>
           </select>
         </div>
       </div>
@@ -141,11 +135,8 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <label for="">Select JD</label>
         <div class="input-group mb-3">
-          <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="custom-select" name="jdFile" id="inputGroupSelect04" aria-label="Example select with button addon" [(ngModel)]="newRequirement.jdFile">            
+            <option *ngFor="let jd of jdFile" value="{{jd.job_des_id}}">{{jd.job_title}}</option>
           </select>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button">Create JD</button>
@@ -159,9 +150,8 @@
         <div class="form-group">
           <div class="form-group">
             <label for="requstTo">Request to</label>
-            <select class="form-control" id="requstTo">
-              <option>Manager name</option>
-              <option>Intern</option>
+            <select class="form-control" id="requstTo" name="requestTo" [(ngModel)]="newRequirement.requestTo" multiple>
+              <option *ngFor="let mang of manager" value="{{mang.user_reg_id}}">{{mang.user_reg_name}}</option>
             </select>
           </div>
         </div>
@@ -181,7 +171,7 @@
       <!-- Option Aptitude -->
       <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="aptitude">
+          <input type="checkbox" class="custom-control-input" name="aptitude" id="aptitude">
           <label class="custom-control-label" for="aptitude">Aptitude</label>
         </div>
       </div>
@@ -190,7 +180,7 @@
       <!-- Option Machine Test -->
       <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="machineTest">
+          <input type="checkbox" class="custom-control-input" name="machineTest" id="machineTest">
           <label class="custom-control-label" for="machineTest">Machine Test</label>
         </div>
       </div>
@@ -199,7 +189,7 @@
       <!-- Option Technical Interview -->
       <div class="col-lg-3 col-md-4">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="technicalInterview">
+          <input type="checkbox" class="custom-control-input" name="technicalInterview" id="technicalInterview">
           <label class="custom-control-label" for="technicalInterview">Technical Interview</label>
         </div>
       </div>
@@ -208,7 +198,7 @@
       <!-- Option HR Interview -->
       <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="hrInterview">
+          <input type="checkbox" class="custom-control-input" name="hrInterview" id="hrInterview">
           <label class="custom-control-label" for="hrInterview">HR Interview</label>
         </div>
       </div>
@@ -217,7 +207,7 @@
       <!-- Option MD Interview -->
       <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="mdInterview">
+          <input type="checkbox" class="custom-control-input" name="mdInterview" id="mdInterview">
           <label class="custom-control-label" for="mdInterview">MD Interview</label>
         </div>
       </div>
@@ -233,11 +223,8 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <label for="">Select Aptitude Doc</label>
         <div class="input-group mb-3">
-          <select class="custom-select" id="selectApti" aria-label="Example select with button addon">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="custom-select" id="selectApti" name="aptiFile" aria-label="Example select with button addon" [(ngModel)]="newRequirement.aptiFile">
+            <option *ngFor="let apti of aptiFile" value="{{apti.apti_id}}">{{apti.apti_name}}</option>
           </select>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button">Create New</button>
@@ -250,11 +237,8 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <label for="">Select Machine Test</label>
         <div class="input-group mb-3">
-          <select class="custom-select" id="selectMachine" aria-label="Example select with button addon">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="custom-select" id="selectMachine" name="machineTestFile" aria-label="Example select with button addon" [(ngModel)]="newRequirement.machineTestFile">
+            <option *ngFor="let machTest of machTestFile" value="{{machTest.mach_test_id}}">{{machTest.mach_test_name}}</option>
           </select>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button">Create New</button>
@@ -269,7 +253,7 @@
       <div class="col-lg-6">
         <div class="form-group">
           <label for="commnets">Additional Note</label>
-          <textarea class="form-control" rows="5"></textarea>
+          <textarea class="form-control" rows="5" name="notes" [(ngModel)]="newRequirement.notes"></textarea>
         </div>
       </div>
     </div>
@@ -277,7 +261,7 @@
     <div class="row">
       <div class="col-lg-4">
         <button class="btn btn-primary mr-3" (click)="showMessage()">Get Approval</button>
-        <button class="btn btn-outline-secondary">Save as Preset</button>
+        <button class="btn btn-outline-secondary" (click)="savePreset()">Save as Preset</button>
       </div>
     </div>
 

@@ -4,4 +4,6 @@ export class User {
     userPassword: any;
     userConfirmPassword: any;
     userRole: any;
+    userRoleId: any;
+    userRoleNameInitial: any;
 }

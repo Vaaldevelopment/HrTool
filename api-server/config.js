@@ -94,15 +94,37 @@ router.post('/userRegistration', function (req, res) {
 
 });
 
+// user Role
+
 router.get('/userRole', function (req, res) {
   var sql = "SELECT * from user_role";
   con.query(sql, function (err, result, fields) {
     if (err) throw err;
-    res.send(result);
     console.log(result);
+    res.send(result);
   });
 });
 
+//user Login details
+
+router.post('/userLogin', function(req, res){
+  var sql = "SELECT user_reg_role FROM user_registration WHERE user_reg_name = '" + req.body.userFirstLastName + "' AND user_reg_password = '" + req.body.userPassword + "'";
+  con.query(sql, function (err, result, fields){
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+
+router.post('/getRoleNameInitial', function(req,res){
+
+  var sql = "SELECT user_role_name_initial FROM user_role WHERE user_role_id = " + req.body.userRoleId;
+  con.query(sql, function (err, result, fields){
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  });
+});
 /* email code */
 
 router.post('/sendEmail', function (req, res) {
@@ -145,6 +167,74 @@ router.get('/verify', function (req, res) {
   }
 });
 
+router.get('/department', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM department";
+  con.query(sql, function (err, result, fields){
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  });
+});
+
+router.get('/manager', function (req, res){
+  debugger;
+  var sql = "SELECT * FROM user_registration";
+  con.query(sql, function (err, result, fields){
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.get('/presets', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM requirement";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.get('/jdFile', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM job_description";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.get('/aptiFile', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM aptitude_document";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.get('/machineTestFile', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM machine_test_document";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/newRequirement', function (req, res) {
+  var sql = "INSERT INTO requirement (`job_title`, `no_of_pos`, `department`, `job_type`, `budget`,`experience`,`opening_date`,`closing_date`,`location`,`job_description`,`apti_doc`,`mach_test_doc`,`tests`,`additional_notes`) VALUES ('" + req.body.jobTitle + "','" + req.body.numOfPos + "','" + req.body.department + "','" + req.body.jobType + "','" + req.body.budget +  "','" + req.body.experience + "','" + req.body.openingDate + "','" + req.body.closingDate + "','" + req.body.location + "','" + req.body.jdFile + "','" + req.body.aptiFile + "','" + req.body.machineTestFile + "','" + req.body.tests + "','" + req.body.notes + "')";
+  con.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    res.send("User registered succesfull");
+  });
+
+});
 /* ******************* */
 
 module.exports = router;
