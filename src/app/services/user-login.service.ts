@@ -19,4 +19,11 @@ export class UserLoginService {
   sendVerificationEmail(userDetails) {
     return this.http.post(myGlobals.tool_API + 'sendEmail' , userDetails)
   }
+  userLogin(userLoginDetails){
+    return this.http.post(myGlobals.tool_API + 'userLogin', userLoginDetails)
+  }
+
+  getRoleNameInitial(userRoleId){
+    return this.http.post(myGlobals.tool_API + 'getRoleNameInitial', userRoleId);
+  }
 }

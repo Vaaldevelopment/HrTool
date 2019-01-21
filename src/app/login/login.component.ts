@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserLoginService } from '../services/user-login.service';
-import { User } from '../modules/user-login-module'
+import { User } from '../modules/user-login-module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   confirm_password: any;
 
 
-  constructor(private userLoginService: UserLoginService) {
+  constructor(private userLoginService: UserLoginService, private router: Router) {
     this.user = new User();
     this.message = false;
     this.verifyMessage = false;
@@ -44,11 +45,9 @@ export class LoginComponent implements OnInit {
     this.message = false;
     this.verifyMessage = true;
     this.user.userEmail = this.userEmail;
-    debugger;
     this.userLoginService.createNewAccount(this.user).subscribe((response) => {
       console.log('respose is' + response);
       if (response) {
-        debugger;
         this.userLoginService.sendVerificationEmail(this.user).subscribe((response) => {
           console.log(response);
         }, (error) => {
@@ -62,11 +61,48 @@ export class LoginComponent implements OnInit {
   }
   getUserRole() {
     this.userLoginService.getUserRole().subscribe((response) => {
-      debugger;
       this.userRole = JSON.parse(response["_body"]);
       console.log(response);
     }, (error) => {
       console.log(error);
     })
+  }
+  userLogin() {
+    this.userLoginService.userLogin(this.user).subscribe((response) => {
+      if (response) {
+
+        this.user.userRoleId = JSON.parse(response["_body"])[0].user_reg_role;
+
+        this.userLoginService.getRoleNameInitial(this.user).subscribe((responseRole) => {
+
+          if (responseRole) {
+            this.user.userRoleNameInitial = JSON.parse(responseRole["_body"])[0].user_role_name_initial;
+            switch (this.user.userRoleNameInitial) {
+              case '':
+                alert('Login Failed, Please check User Name and Password.');
+                break;
+              case 'HR':
+                this.router.navigate(['/hr-dashboard']);
+                break;
+              case 'MGR':
+              case 'MD':
+              case 'TL':
+                this.router.navigate(['/m-dashboard']);
+                break;
+              default:
+                alert('Your Role is not recognized');
+            }
+            
+          }else{
+            alert('Login information incorrect. Please re-enter the correct login and password.');
+          }
+        }, (error) => {
+          console.log(error);
+        });
+      }
+    }, (error) => {
+      console.log(error);
+    })
+
   }
 }

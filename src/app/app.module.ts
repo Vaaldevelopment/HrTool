@@ -18,6 +18,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { LoginComponent } from './login/login.component';
 import { HttpModule } from '@angular/http';
 import { UserLoginService } from './services/user-login.service';
+import { NewRequirementService } from './services/new-requirement.service';
+
 export const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'test', component: TestComponent },
@@ -30,7 +32,7 @@ export const appRoutes: Routes = [
   { path: 'hr-view-candidate', component: HrViewCandidateComponent },
   { path: 'user-profile', component: UserProfileComponent },
   { path: 'notifications', component: NotificationsComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({
@@ -58,7 +60,10 @@ export const appRoutes: Routes = [
       { enableTracing: true, useHash: true } // <-- debugging purposes only
     ),
   ],
-  providers: [UserLoginService],
+  providers: [
+    UserLoginService,
+    NewRequirementService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

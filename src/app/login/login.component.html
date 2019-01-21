@@ -3,13 +3,13 @@
     <div class="col-lg-4 col-sm-6 p-5 bg-white shadow">
       <h4>Welcome</h4>
       <hr>
-      <form>
+      <form #userLoginForm="ngForm" ngNativeValidate (ngSubmit)="userLogin()">
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fa fa-user-o" aria-hidden="true"></i></span>
             </div>
-            <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Username">
+            <input type="text" class="form-control" name="fName" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Username" [(ngModel)]="user.userFirstLastName">
           </div>
         </div>
         <div class="form-group">
@@ -17,7 +17,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fa fa-eye" aria-hidden="true"></i></span>
             </div>
-            <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
+            <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password" [(ngModel)]="user.userPassword">
           </div>
         </div>
         <button type="submit" class="btn btn-block btn-primary">Login </button>
@@ -75,12 +75,13 @@
               <span class="input-group-text"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
             </div>
             <select name="role" class="form-control" [(ngModel)]="user.userRole" required>
-              <option value="" selected="selected">Select Role </option>
+              <option value="" selected="selected" disabled="disabled">Select Role </option>
               <option *ngFor="let role of userRole" value={{role.user_role_id}}>{{role.user_role_name_initial}}</option>
             </select>
           </div>
         </div>
         <button type="submit" class="btn btn-block btn-primary">Create Account </button>
+        
       </form>
     </div>
   </div>
