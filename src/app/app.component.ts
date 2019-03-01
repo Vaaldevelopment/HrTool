@@ -7,4 +7,20 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'HrTool';
+  
+  showHeader : boolean;
+  constructor() {
+    // if(localStorage.getItem('userid')){
+    //   this.showHeader = true;
+    // }
+    // else{
+    //   this.showHeader = false;
+    // }
+  }
+
+  checkUserToken() {
+    if (localStorage.getItem('userid')) {
+      return true;
+    }
+  }
 }

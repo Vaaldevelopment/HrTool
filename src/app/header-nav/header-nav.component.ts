@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header-nav',
   templateUrl: './header-nav.component.html',
@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderNavComponent implements OnInit {
   notificationBell: boolean;
-  constructor() {
+  role = localStorage.getItem('role');
+  userName = localStorage.getItem('username');
+ 
+  constructor(private router: Router) {
     this.notificationBell = true;
   }
 
@@ -15,6 +18,11 @@ export class HeaderNavComponent implements OnInit {
   }
   showBellNotification() {
     this.notificationBell = false;
+  }
+  logout()
+  {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
 }

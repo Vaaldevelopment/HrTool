@@ -16,4 +16,5 @@ export class NewRequirement {
     tests: any;
     notes: any;
     presets: any;
+    userId: any;
 }

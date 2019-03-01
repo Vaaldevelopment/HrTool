@@ -74,9 +74,20 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
             </div>
-            <select name="role" class="form-control" [(ngModel)]="user.userRole" required>
-              <option value="" selected="selected" disabled="disabled">Select Role </option>
+            <select name="userRole" class="form-control" [(ngModel)]="user.userRole" required  (change)="selectChangeHandler()">
+              <option value=""  disabled="disabled">Select Role </option>
               <option *ngFor="let role of userRole" value={{role.user_role_id}}>{{role.user_role_name_initial}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="showDepartment">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+            </div>
+            <select name="department" class="form-control" [(ngModel)]="user.department" required>
+              <option value="" selected="selected" disabled="disabled">Select Department </option>
+              <option *ngFor="let dept of department" value={{dept.dep_id}}>{{dept.dep_name}}</option>
             </select>
           </div>
         </div>

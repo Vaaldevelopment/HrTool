@@ -1,5 +1,5 @@
 <nav class="navbar fixed-top navbar-expand navbar-light bg-white">
-  <a class="navbar-brand" href="#">HR</a>
+  <a class="navbar-brand" href="/#/m-dashboard">{{role}} Dashboard</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -50,10 +50,11 @@
           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <span class="dropdown-item text-primary">Hello {{ userName }}</span>
           <a class="dropdown-item" href="#">Action</a>
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/#/login">Sign Out</a>
+          <a class="dropdown-item" (click) = "logout()">Sign Out</a>
         </div>
       </li>
     </ul>

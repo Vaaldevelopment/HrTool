@@ -26,4 +26,7 @@ export class UserLoginService {
   getRoleNameInitial(userRoleId){
     return this.http.post(myGlobals.tool_API + 'getRoleNameInitial', userRoleId);
   }
+  getDepartment(){
+    return this.http.get(myGlobals.tool_API + 'department');
+  }
 }
