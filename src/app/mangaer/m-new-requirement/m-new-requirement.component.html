@@ -8,7 +8,7 @@
   <!-- Heading for page test -->
 </div>
 
-<div class="container-fluid pb-3 shadow-sm bg-white">
+<div class="container-fluid pb-3 shadow-sm bg-white" *ngIf="!message" >
 
   <!-- Select Preset dropdown -->
   <div class="row pb-3 pt-3">
@@ -16,7 +16,7 @@
       <form class="form-inline">
         <div class="form-group ">
           <label for="presets" class="mr-3">Select Preset</label>
-          <select id="presets" name="presets" class="form-control" [(ngModel)]="newRequirement.presets">
+          <select id="presets" name="presets" class="form-control" [(ngModel)]="newRequirement.presets" (change)="presetSelected()">
             <option *ngFor="let preset of presets" value="{{preset.req_id}}">{{preset?preset.job_title:"No stored presets"}}</option>
           </select>
         </div>
@@ -25,7 +25,7 @@
   </div>
   <!-- Select Preset dropdown -->
 
-  <form>
+  <form #requirementForm="ngForm" ngNativeValidate> 
 
     <div class="row">
 
@@ -33,7 +33,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="jobTitle">Job Title</label>
-          <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="" [(ngModel)]="newRequirement.jobTitle">
+          <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="" [(ngModel)]="newRequirement.jobTitle" required>
         </div>
       </div>
       <!-- Job Title -->
@@ -42,7 +42,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="noOfPosition">Number of Position</label>
-          <input type="number" class="form-control" name="noOfPosition" id="noOfPosition" placeholder="" [(ngModel)]="newRequirement.numOfPos">
+          <input type="number" class="form-control" name="noOfPosition" min="1" id="noOfPosition" placeholder="" [(ngModel)]="newRequirement.numOfPos" required>
         </div>
       </div>
       <!-- Number of Positions -->
@@ -65,7 +65,7 @@
         <div class="form-group">
           <div class="form-group">
             <label for="jobType">Job Type</label>
-            <select class="form-control" id="jobType" name="jobType" [(ngModel)]="newRequirement.jobType">
+            <select class="form-control" id="jobType" name="jobType" [(ngModel)]="newRequirement.jobType" required>
               <option selected disabled="disabled">Select Job Type</option>
               <option>Permanent</option>
               <option>Intern</option>
@@ -93,7 +93,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="experience">Experience</label>
-          <input type="text" class="form-control" id="experience" name="experience" placeholder="" [(ngModel)]="newRequirement.experience">
+          <input type="text" class="form-control" id="experience" name="experience" placeholder="" [(ngModel)]="newRequirement.experience" required>
         </div>
       </div>
       <!-- Work Experience -->
@@ -102,7 +102,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="openingDate">Opening Date</label>
-          <input type="date" name="openingDate" id="openingDate" class="form-control" [(ngModel)]="newRequirement.openingDate">
+          <input type="date" name="openingDate" id="openingDate" class="form-control" [(ngModel)]="newRequirement.openingDate" required>
         </div>
       </div>
       <!-- Opening Date -->
@@ -111,7 +111,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="form-group">
           <label for="closingDate">Closing Date</label>
-          <input type="date" name="closingDate" id="closingDate" class="form-control" [(ngModel)]="newRequirement.closingDate">
+          <input type="date" name="closingDate" id="closingDate" class="form-control" [(ngModel)]="newRequirement.closingDate" required>
         </div>
       </div>
       <!-- closing Date -->
@@ -135,7 +135,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <label for="">Select JD</label>
         <div class="input-group mb-3">
-          <select class="custom-select" name="jdFile" id="inputGroupSelect04" aria-label="Example select with button addon" [(ngModel)]="newRequirement.jdFile">            
+          <select class="custom-select" name="jdFile" id="inputGroupSelect04" aria-label="Example select with button addon" [(ngModel)]="newRequirement.jdFile" required>            
             <option *ngFor="let jd of jdFile" value="{{jd.job_des_id}}">{{jd.job_title}}</option>
           </select>
           <div class="input-group-append">
@@ -150,7 +150,10 @@
         <div class="form-group">
           <div class="form-group">
             <label for="requstTo">Request to</label>
-            <select class="form-control" id="requstTo" name="requestTo" [(ngModel)]="newRequirement.requestTo" multiple>
+            <!-- <select class="form-control" id="department" name="department" [(ngModel)]="newRequirement.department" required>
+              <option *ngFor="let dep of department" value="{{dep.dep_id}}">{{dep.dep_name}}</option>
+            </select> -->
+            <select class="form-control" id="requstTo" name="requestTo" [(ngModel)]="newRequirement.requestTo" required>
               <option *ngFor="let mang of manager" value="{{mang.user_reg_id}}">{{mang.user_reg_name}}</option>
             </select>
           </div>
@@ -166,51 +169,51 @@
       </div>
     </div>
 
-    <div class="row pt-3 pb-3">
+    <div class="row pt-3 pb-3" >
 
       <!-- Option Aptitude -->
-      <div class="col-lg-2 col-md-3">
+      <div class="col-lg-2 col-md-3" *ngFor="let test of tests" >
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" name="aptitude" id="aptitude">
-          <label class="custom-control-label" for="aptitude">Aptitude</label>
+          <input type="checkbox" class="custom-control-input"  name="test{{test.test_id}}" id="test{{test.test_id}}" value="{{test.test_id}}" >
+          <label class="custom-control-label" for="test{{test.test_id}}">{{test.test_name}}</label>
         </div>
       </div>
       <!-- Option Aptitude -->
 
       <!-- Option Machine Test -->
-      <div class="col-lg-2 col-md-3">
+      <!-- <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="machineTest" id="machineTest">
           <label class="custom-control-label" for="machineTest">Machine Test</label>
         </div>
-      </div>
+      </div> -->
       <!-- Option Machine Test -->
 
       <!-- Option Technical Interview -->
-      <div class="col-lg-3 col-md-4">
+      <!-- <div class="col-lg-3 col-md-4">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="technicalInterview" id="technicalInterview">
           <label class="custom-control-label" for="technicalInterview">Technical Interview</label>
         </div>
-      </div>
+      </div> -->
       <!-- Option Technical Interview -->
 
       <!-- Option HR Interview -->
-      <div class="col-lg-2 col-md-3">
+      <!-- <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="hrInterview" id="hrInterview">
           <label class="custom-control-label" for="hrInterview">HR Interview</label>
         </div>
-      </div>
+      </div> -->
       <!-- Option HR Interview -->
 
       <!-- Option MD Interview -->
-      <div class="col-lg-2 col-md-3">
+      <!-- <div class="col-lg-2 col-md-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="mdInterview" id="mdInterview">
           <label class="custom-control-label" for="mdInterview">MD Interview</label>
         </div>
-      </div>
+      </div> -->
       <!-- Option MD Interview -->
 
     </div>
@@ -220,7 +223,7 @@
     <div class="row">
 
       <!-- Select Aptitude Document -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="col-lg-3 col-md-6 col-sm-6" >
         <label for="">Select Aptitude Doc</label>
         <div class="input-group mb-3">
           <select class="custom-select" id="selectApti" name="aptiFile" aria-label="Example select with button addon" [(ngModel)]="newRequirement.aptiFile">
@@ -260,8 +263,8 @@
 
     <div class="row">
       <div class="col-lg-4">
-        <button class="btn btn-primary mr-3" (click)="showMessage()">Get Approval</button>
-        <button class="btn btn-outline-secondary" (click)="savePreset()">Save as Preset</button>
+        <button type="submit" class="btn btn-primary mr-3" (click)="getApproval()">Get Approval</button>
+        <button type="submit" class="btn btn-outline-secondary" (click)="savePreset()">Save as Preset</button>
       </div>
     </div>
 
@@ -270,7 +273,7 @@
 </div>
 
 
-<div class="container-fluid bg-white p-5 mt-4" >
+<div class="container-fluid bg-white p-5 mt-4" *ngIf="message">
   <div class="row">
     <div class="col-lg-12 text-center">
       <h4>

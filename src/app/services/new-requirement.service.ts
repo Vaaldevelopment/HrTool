@@ -17,8 +17,8 @@ export class NewRequirementService {
     return this.http.get(myGlobals.tool_API + 'manager');
   }
 
-  getPresets(){
-    return this.http.get(myGlobals.tool_API + 'presets');
+  getPresets(reqData){
+    return this.http.post(myGlobals.tool_API + 'presets', reqData);
   }
 
   getJdFile(){
@@ -33,7 +33,23 @@ export class NewRequirementService {
     return this.http.get(myGlobals.tool_API + 'machineTestFile');
   }
 
-  createNewRequirement(reqData) {
-    return this.http.post(myGlobals.tool_API + 'newRequirement', reqData);
+  getTests(){
+    return this.http.get(myGlobals.tool_API + 'tests');
+  }
+
+  createPreset(reqData) {
+    return this.http.post(myGlobals.tool_API + 'newPreset', reqData);
+  }
+
+  createAwaitingRequirement(reqData){
+    return this.http.post(myGlobals.tool_API + 'awaitingRequirement', reqData);
+  }
+
+  getPendingApproval(reqData){
+    return this.http.post(myGlobals.tool_API + 'pendingApproval', reqData);
+  } 
+
+  getAwaitingApproval(){
+    return this.http.get(myGlobals.tool_API + 'awaitingApproval');
   }
 }

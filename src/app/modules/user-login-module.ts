@@ -6,4 +6,6 @@ export class User {
     userRole: any;
     userRoleId: any;
     userRoleNameInitial: any;
+    department: any;
+    userId: any;
 }

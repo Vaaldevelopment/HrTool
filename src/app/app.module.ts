@@ -8,7 +8,7 @@ import { TestComponent } from './test/test.component';
 import { MNewRequirementComponent } from './mangaer/m-new-requirement/m-new-requirement.component';
 import { MDashboardComponent } from './mangaer/m-dashboard/m-dashboard.component';
 import { MViewPendingReqComponent } from './mangaer/m-view-pending-req/m-view-pending-req.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HrDashboardComponent } from './hr/hr-dashboard/hr-dashboard.component';
 import { HrViewCurrentOpeningComponent } from './hr/hr-view-current-opening/hr-view-current-opening.component';
 import { HrAddNewCandidateComponent } from './hr/hr-add-new-candidate/hr-add-new-candidate.component';
@@ -19,6 +19,11 @@ import { LoginComponent } from './login/login.component';
 import { HttpModule } from '@angular/http';
 import { UserLoginService } from './services/user-login.service';
 import { NewRequirementService } from './services/new-requirement.service';
+import { DxDataGridModule } from 'devextreme-angular';
+import { ViewRequirementService } from './services/view-requirement.service';
+import { ModalServiceService } from './services/modal-service.service';
+import { MdDashboardComponent } from './md/md-dashboard/md-dashboard.component';
+import { MdViewRequirementComponent } from './md/md-view-requirement/md-view-requirement.component';
 
 export const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -33,6 +38,8 @@ export const appRoutes: Routes = [
   { path: 'user-profile', component: UserProfileComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'md-dashboard', component: MdDashboardComponent },
+  { path: 'md-view-requirement', component: MdViewRequirementComponent },
 ];
 
 @NgModule({
@@ -49,12 +56,16 @@ export const appRoutes: Routes = [
     HrViewCandidateComponent,
     UserProfileComponent,
     NotificationsComponent,
-    LoginComponent
+    LoginComponent,
+    MdDashboardComponent,
+    MdViewRequirementComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ReactiveFormsModule,
+    DxDataGridModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true, useHash: true } // <-- debugging purposes only
@@ -62,7 +73,9 @@ export const appRoutes: Routes = [
   ],
   providers: [
     UserLoginService,
-    NewRequirementService
+    NewRequirementService,
+    ViewRequirementService,
+    ModalServiceService
   ],
   bootstrap: [AppComponent]
 })

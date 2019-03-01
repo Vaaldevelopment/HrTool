@@ -2,6 +2,7 @@ var http = require('http');
 const express = require('express');
 const router = express.Router();
 var nodemailer = require("nodemailer");
+const uuidv1 = require('uuid/v1');
 
 // http.createServer(function (req, res) {
 //   // res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -86,12 +87,13 @@ router.get('/getcandidate', function (req, res) {
 });
 
 router.post('/userRegistration', function (req, res) {
-  var sql = "INSERT INTO user_registration (`user_reg_name`, `user_reg_email`, `user_reg_password`, `user_reg_role`, `user_reg_status`) VALUES ('" + req.body.userFirstLastName + "','" + req.body.userEmail + "','" + req.body.userPassword + "','" + req.body.userRole + "','" + 1 + "')";
+var user_id = uuidv1();
+  var sql = "INSERT INTO user_registration (`user_reg_id`, `user_reg_name`, `user_reg_email`, `user_reg_password`, `user_reg_role`, `user_dep`, `user_reg_status`) VALUES ('" + user_id + "','" + req.body.userFirstLastName +  "','" + req.body.userEmail + "','" + req.body.userPassword + "','" + req.body.userRole + "','" + req.body.department + "','" + 1 + "')";
   con.query(sql, function (err, result, fields) {
     if (err) throw err;
     res.send("User registered succesfull");
   });
-
+//console.log(sql);
 });
 
 // user Role
@@ -108,7 +110,7 @@ router.get('/userRole', function (req, res) {
 //user Login details
 
 router.post('/userLogin', function(req, res){
-  var sql = "SELECT user_reg_role FROM user_registration WHERE user_reg_name = '" + req.body.userFirstLastName + "' AND user_reg_password = '" + req.body.userPassword + "'";
+  var sql = "SELECT * FROM user_registration WHERE user_reg_name = '" + req.body.userFirstLastName + "' AND user_reg_password = '" + req.body.userPassword + "'";
   con.query(sql, function (err, result, fields){
     if (err) throw err;
     res.send(result);
@@ -167,6 +169,8 @@ router.get('/verify', function (req, res) {
   }
 });
 
+// New Requirement Queries
+
 router.get('/department', function (req, res) {
   debugger;
   var sql = "SELECT * FROM department";
@@ -187,9 +191,9 @@ router.get('/manager', function (req, res){
   })
 })
 
-router.get('/presets', function (req, res) {
+router.post('/presets', function (req, res) {
   debugger;
-  var sql = "SELECT * FROM requirement";
+  var sql = "SELECT * FROM requirement_presets WHERE user_id = '" + req.body.userId + "'";
   con.query( sql, function (err, result, fields) {
     if (err) throw err;
     console.log(result);
@@ -227,14 +231,130 @@ router.get('/machineTestFile', function (req, res) {
   })
 })
 
-router.post('/newRequirement', function (req, res) {
-  var sql = "INSERT INTO requirement (`job_title`, `no_of_pos`, `department`, `job_type`, `budget`,`experience`,`opening_date`,`closing_date`,`location`,`job_description`,`apti_doc`,`mach_test_doc`,`tests`,`additional_notes`) VALUES ('" + req.body.jobTitle + "','" + req.body.numOfPos + "','" + req.body.department + "','" + req.body.jobType + "','" + req.body.budget +  "','" + req.body.experience + "','" + req.body.openingDate + "','" + req.body.closingDate + "','" + req.body.location + "','" + req.body.jdFile + "','" + req.body.aptiFile + "','" + req.body.machineTestFile + "','" + req.body.tests + "','" + req.body.notes + "')";
+router.get('/tests', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM tests";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/newPreset', function (req, res) {
+  var sql = "INSERT INTO requirement_presets (`job_title`, `no_of_pos`, `department`, `job_type`, `budget`,`experience`,`opening_date`,`closing_date`,`location`,`job_description`,`apti_doc`,`mach_test_doc`,`tests`,`request_to`,`additional_notes`,`user_id`) VALUES ('" + req.body.jobTitle + "','" + req.body.numOfPos + "','" + req.body.department + "','" + req.body.jobType + "','" + req.body.budget +  "','" + req.body.experience + "','" + req.body.openingDate + "','" + req.body.closingDate + "','" + req.body.location + "','" + req.body.jdFile + "','" + req.body.aptiFile + "','" + req.body.machineTestFile + "','" + req.body.tests + "','" + req.body.requestTo + "','" + req.body.notes + "','" + req.body.userId +  "')";
   con.query(sql, function (err, result, fields) {
     if (err) throw err;
-    res.send("User registered succesfull");
+    res.send("Preset Saved Successfully");
   });
 
 });
+
+router.post('/awaitingRequirement', function (req, res) {
+  var sql = "INSERT INTO requirement_awaiting (`job_title`, `no_of_pos`, `department`, `job_type`, `budget`,`experience`,`opening_date`,`closing_date`,`location`,`job_description`,`apti_doc`,`mach_test_doc`,`tests`,`request_to`,`additional_notes`,`user_id`) VALUES ('" + req.body.jobTitle + "','" + req.body.numOfPos + "','" + req.body.department + "','" + req.body.jobType + "','" + req.body.budget +  "','" + req.body.experience + "','" + req.body.openingDate + "','" + req.body.closingDate + "','" + req.body.location + "','" + req.body.jdFile + "','" + req.body.aptiFile + "','" + req.body.machineTestFile + "','" + req.body.tests + "','" + req.body.requestTo + "','" + req.body.notes + "','" + req.body.userId + "')";
+  con.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    res.send("Requirement sent for approval");
+  });
+})
+
+router.post('/pendingApproval', function (req, res) {
+  debugger;
+  console.log(req.body.userId);
+  var sql = "SELECT * FROM requirement_awaiting where user_id = '" + req.body.userId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+});
+
+
+router.get('/awaitingApproval', function (req, res) {
+  debugger;
+  var sql = "SELECT * FROM requirement_awaiting";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+// View Requirement Queries
+
+router.post('/singleRequirement', function (req, res) {
+  var sql = "SELECT * FROM requirement_awaiting where req_id = '" + req.body.reqId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/departmentName', function (req, res) {
+  var sql = "SELECT dep_name FROM department where dep_id = '" + req.body.departmentId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/aptiFileData', function (req, res) {
+  var sql = "SELECT * FROM aptitude_document where apti_id = '" + req.body.aptiFileId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/userName', function (req, res) {
+  var sql = "SELECT user_reg_name FROM user_registration where user_reg_id = '" + req.body.requestToId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+
+router.post('/jdFileData', function (req, res) {
+  var sql = "SELECT * FROM job_description where job_des_id = '" + req.body.jdFileId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/machTestFileData', function (req, res) {
+  var sql = "SELECT * FROM machine_test_document where mach_test_id = '" + req.body.machineTestFileId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/updateRequirement', function (req, res) {
+  var sql = "UPDATE requirement_awaiting set `job_title` = '" + req.body.jobTitle +"', `no_of_pos` = '" + req.body.numOfPos + "', `department` = '" + req.body.departmentId+ "', `job_type` = '" + req.body.jobType + "', `budget` = '" + req.body.budget + "',`experience` = '" + req.body.experience + "',`opening_date` = '" + req.body.openingDate + "',`closing_date` = '" + req.body.closingDate + "',`location` = '" + req.body.location + "',`job_description` = '" + req.body.jdFileId + "',`apti_doc` = '" + req.body.aptiFileId + "',`mach_test_doc` = '" + req.body.machineTestFileId + "',`tests` = '" + req.body.tests + "',`request_to` = '" + req.body.requestToId + "',`additional_notes` = '" + req.body.notes + "'  where req_id = '" + req.body.reqId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
+router.post('/deleteRequirement', function (req, res) {
+  var sql = "DELETE FROM requirement_awaiting where req_id = '" + req.body.reqId + "'";
+  con.query( sql, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  })
+})
+
 /* ******************* */
 
-module.exports = router;
+module.exports = router; 
