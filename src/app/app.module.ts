@@ -24,6 +24,8 @@ import { ViewRequirementService } from './services/view-requirement.service';
 import { ModalServiceService } from './services/modal-service.service';
 import { MdDashboardComponent } from './md/md-dashboard/md-dashboard.component';
 import { MdViewRequirementComponent } from './md/md-view-requirement/md-view-requirement.component';
+import { SearchComponent } from './candidate-lookup/search/search.component';
+import { AddNewCandidateComponent } from './candidate-lookup/add-new-candidate/add-new-candidate.component';
 
 export const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -40,6 +42,8 @@ export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'md-dashboard', component: MdDashboardComponent },
   { path: 'md-view-requirement', component: MdViewRequirementComponent },
+  { path: 'cl-search', component: SearchComponent },
+  { path: 'cl-add-new', component: AddNewCandidateComponent },
 ];
 
 @NgModule({
@@ -58,7 +62,9 @@ export const appRoutes: Routes = [
     NotificationsComponent,
     LoginComponent,
     MdDashboardComponent,
-    MdViewRequirementComponent
+    MdViewRequirementComponent,
+    SearchComponent,
+    AddNewCandidateComponent
   ],
   imports: [
     BrowserModule,
