@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as myGlobals from '../modules/global';
+import * as myGlobals from '../models/global';
 import { Http } from '@angular/http';
 import { NG_ASYNC_VALIDATORS } from '@angular/forms';
 

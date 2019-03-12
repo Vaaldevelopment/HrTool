@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hr-view-candidate.component.scss']
 })
 export class HrViewCandidateComponent implements OnInit {
+  editMode = false;
 
   constructor() { }
 
   ngOnInit() {
   }
+edit(event)
+{
 
+}
 }

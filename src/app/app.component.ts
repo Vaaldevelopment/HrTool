@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'HrTool';
   
+  title = 'HrTool';
+  config: any;
   showHeader : boolean;
   constructor() {
     // if(localStorage.getItem('userid')){
@@ -23,4 +25,5 @@ export class AppComponent {
       return true;
     }
   }
+
 }

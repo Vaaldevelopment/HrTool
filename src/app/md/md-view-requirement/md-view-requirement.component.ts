@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./md-view-requirement.component.scss']
 })
 export class MdViewRequirementComponent implements OnInit {
-
+  editRequirement: any;
   constructor() { }
 
   ngOnInit() {
+    this.editRequirement = false;
   }
+  deleteRequirement(){
 
+  }
+  updateRequirement(){
+    
+  }
 }
