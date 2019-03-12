@@ -1,17 +1,94 @@
 <div class="container-fluid pt-3">
   <div class="row">
-      <div class="col-lg-12">
-          <a routerLink="/cl-add-new" class="btn btn-primary pull-right">Add new candidate</a>
-      </div>
+    <div class="col-lg-12">
+      <a (click)="addCandidate()" class="btn btn-primary pull-right">Add new candidate</a>
+    </div>
   </div>
   <div class="row">
     <div class="col-lg-8 text-center offset-lg-2">
       <form action="">
         <div class="form-group input-group-lg">
-          <input type="text" name="search" id="c_search" class="form-control" placeholder="Search...">
+          <input type="text" name="search" id="c_search" class="form-control" placeholder="Search..."
+            [(ngModel)]="searchTerm" (keyup)="loadData()">
         </div>
       </form>
     </div>
   </div>
-  
+</div>
+
+<div class="row" *ngIf="results">
+  <div class="col-lg-8 offset-lg-2">
+    <div class="table">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Department</th>
+            <th scope="col">Status</th>
+            <th scope="col">Stage</th>
+            <th scope="col">Date</th>
+            <th scope="col">Resume</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of results">
+            <td> <a href="{{ result.first_name }}" target="_blank">{{ result.first_name }}</a></td>
+            <td>{{ result.position_name }}</td>
+            <td>{{ result.dep_name }}</td>
+            <td>{{ result.status_name }}</td>
+            <td>{{ result.stage_name }}</td>
+            <td>{{ result.date | date }}</td>
+            <!-- <td><a href="#!" class="btn btn-outline-dark"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                {{ config + result.cv }} </a></td> -->
+                <td><a href="#!"class=""  data-toggle="modal" data-target="#myModal"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> </a></td>
+            <td><a (click)="editCandidate(result.candidate_id)" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i></a> | <a
+              (click)="deleteCandidate(result)" class="btn btn-outline-danger"> <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4> 
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+<!-- <iframe src="http://docs.google.com/gview?url=https://www.sigmanest.com/Downloads/test.docx&embedded=true" 
+style="width:750px; height:600px;" frameborder="0"></iframe> -->
+
+<iframe src="http://10.0.9.21/hrtool/uploads/Test.pdf" style="width:750px; height:600px;" frameborder="0"></iframe>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal data-target="#exampleModalCenter"-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h1><i class="fa fa-times-circle text-danger" aria-hidden="true"></i></h1>
+        <strong>Record Deleted</strong>
+      </div>
+      <div class="modal-footer align-middle">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><a routerLink = "/cl-search">Okay</a></button>
+      </div>
+    </div>
+  </div>
 </div>

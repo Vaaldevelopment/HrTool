@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewRequirementService } from 'src/app/services/view-requirement.service';
 import { NewRequirementService } from 'src/app/services/new-requirement.service';
-import { ViewRequirement } from 'src/app/modules/view-requirement-module';
+import { ViewRequirement } from 'src/app/models/view-requirement-model';
 import { Router } from '@angular/router';
 import { ModalServiceService } from 'src/app/services/modal-service.service';
 declare var $:any;

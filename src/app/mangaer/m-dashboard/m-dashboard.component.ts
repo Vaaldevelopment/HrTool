@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NewRequirementService } from 'src/app/services/new-requirement.service';
-import { NewRequirement } from 'src/app/modules/new-requirement-module';
+import { NewRequirement } from 'src/app/models/new-requirement-model';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 

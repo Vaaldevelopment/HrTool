@@ -11,7 +11,7 @@
             id="gridContainer"
             [dataSource]="awaitingApprovals"
             [selectedRowKeys]="[]"
-            [showBorders]="true" (onSelectionChanged)="getSelectedEntry($event)">
+            [showBorders]="true" (onSelectionChanged)="getSelectedEntry()">
             <dxi-column dataField="job_title" caption="Position"></dxi-column>
             <dxi-column dataField="no_of_pos" caption="No. Of Positions"></dxi-column>
             <dxi-column caption="Action" cellTemplate="ViewIconTemplate"></dxi-column>

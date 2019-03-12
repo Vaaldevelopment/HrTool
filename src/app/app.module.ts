@@ -26,6 +26,9 @@ import { MdDashboardComponent } from './md/md-dashboard/md-dashboard.component';
 import { MdViewRequirementComponent } from './md/md-view-requirement/md-view-requirement.component';
 import { SearchComponent } from './candidate-lookup/search/search.component';
 import { AddNewCandidateComponent } from './candidate-lookup/add-new-candidate/add-new-candidate.component';
+import { CandidateLookupService } from './services/candidate-lookup.service';
+import { ConfigDataService } from './services/config-data.service';
+import { FileSelectDirective, FileUploadModule } from 'ng2-file-upload';
 
 export const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -72,6 +75,7 @@ export const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     DxDataGridModule,
+    FileUploadModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true, useHash: true } // <-- debugging purposes only
@@ -81,7 +85,9 @@ export const appRoutes: Routes = [
     UserLoginService,
     NewRequirementService,
     ViewRequirementService,
-    ModalServiceService
+    ModalServiceService,
+    CandidateLookupService,
+    ConfigDataService
   ],
   bootstrap: [AppComponent]
 })
