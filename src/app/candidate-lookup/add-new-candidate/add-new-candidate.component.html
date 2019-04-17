@@ -1,225 +1,264 @@
 <div class="container-fluid pt-3" *ngIf="!showEditDataForm">
-    <form #addNewCandidate="ngForm" ngNativeValidate (ngSubmit)="addCandidate()" >
-  <div class="row">
-  
-    <div class="col-lg-4">
-      <div class="upload text-center">
-        <span class="upload-text">
-          <i class="fa fa-files-o" aria-hidden="true"></i>
-          <br> Upload Resume
-        </span>
-        <input type="file" name="upload" id="upload" value="upload"  ng2FileSelect [uploader]="uploader" accept=".pdf"  (change)="fileEvent($event)" required/>
-        <label>{{this.filename}}</label>
-      </div>
-    </div>
+  <form #addNewCandidate="ngForm" ngNativeValidate (ngSubmit)="addCandidate()" id="addCandidateForm">
+    <div class="row">
 
-    <div class="col-lg-8 bg-white p-4 shadow-sm">
-
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" aria-describedby="name" [(ngModel)]="candidate.name" required>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" class="form-control" name="phone" id="phone" aria-describedby="phone" pattern="^\d{10}$" [(ngModel)]="candidate.phone" required title="Please add 10 digit mobile number">
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" aria-describedby="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"  [(ngModel)]="candidate.email" required>
-          </div>
+      <div class="col-lg-4">
+        <div class="upload text-center">
+          <span class="upload-text">
+            <i class="fa fa-files-o" aria-hidden="true"></i>
+            <br> Upload Resume
+          </span>
+          <input type="file" name="upload" id="upload" value="upload" ng2FileSelect [uploader]="uploader" accept=".pdf"
+            (change)="fileEvent($event)" required />
+          <label>{{this.filename}}</label>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" name="check_position" class="custom-control-input" id="check_position" (change)="resetFormField1($event)" >
-            <label class="custom-control-label" for="check_position">Postion</label>
-          </div>
-          <div class="form-group"> 
-            <select name="position" id="position" class="form-control"  [(ngModel)]="candidate.position" name="position" required>
-                <option value="" selected="selected" disabled="disabled">Select Position </option>
-                <option *ngFor="let pos of position" value={{pos.position_id}}>{{pos.position_name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" id="check_dep" name="check_dep" class="custom-control-input" (change)="resetFormField1($event)">
-            <label class="custom-control-label" for="check_dep">Department</label>
-          </div>
-          <div class="form-group">
-            <select name="department" id="department" class="form-control"  [(ngModel)]="candidate.department" required>
-                <option value="" selected="selected" disabled="disabled">Select Department </option>
-                <option *ngFor="let dept of department" value={{dept.dep_id}}>{{dept.dep_name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" id="check_status" name="check_status" class="custom-control-input" (change)="resetFormField1($event)">
-            <label class="custom-control-label" for="check_status">Status</label>
-          </div>
-          <div class="form-group">
-            <select name="status" id="status" class="form-control"  [(ngModel)]="candidate.status" required>
-                <option value="" selected="selected" disabled="disabled">Select Status </option>
-                <option *ngFor="let stat of status" value={{stat.status_id}}>{{stat.status_name}}</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <div class="col-lg-8 bg-white p-4 shadow-sm">
 
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" id="check_stage" name="check_stage" class="custom-control-input" (change)="resetFormField1($event)"> 
-            <label class="custom-control-label" for="check_stage">Stage</label>
-          </div>
-          <div class="form-group">
-            <select name="stage" id="stage" class="form-control"  [(ngModel)]="candidate.stage" required>
-                <option value="" selected="selected" disabled="disabled">Select Stage </option>
-                <option *ngFor="let stag of stage" value={{stag.stage_id}}>{{stag.stage_name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" id="check_date" name="check_date" class="custom-control-input" (change)="resetFormField1($event)">
-            <label class="custom-control-label" for="check_date">Date</label>
-          </div>
-          <div class="form-group">
+        <div class="row">
+          <div class="col-lg-4">
             <div class="form-group">
-              <input type="date" name="date" class="form-control" id="date" aria-describedby="date" [(ngModel)]="candidate.date" required>
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" id="name" aria-describedby="name"
+                [(ngModel)]="candidate.name" (ngModelChange)="firstCapital()" required>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" class="form-control" name="phone" id="phone" aria-describedby="phone" pattern="^\d{10}$"
+                [(ngModel)]="candidate.phone" required title="Please add 10 digit mobile number">
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="email" id="email" aria-describedby="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [(ngModel)]="candidate.email" (ngModelChange)="EmailChange(candidate.email)" required>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-lg-12">
-          <button class="btn btn-primary"  data-toggle="modal" >Save</button>
-          <button type="button" class="btn btn-link"><a routerLink = "/cl-search">Cancel</a></button>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="custom-control custom-checkbox mb-1">
+              <input type="checkbox" name="check_position" class="custom-control-input" id="check_position"
+                (change)="resetFormField1($event)">
+              <label class="custom-control-label" for="check_position">Postion</label>
+            </div>
+            <div class="form-group">
+              <select name="position" id="position" class="form-control" [(ngModel)]="candidate.position"
+                name="position" required>
+                <option value="" selected="selected" disabled="disabled">Select Position </option>
+                <option *ngFor="let pos of position" value={{pos.position_id}}>{{pos.position_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="custom-control custom-checkbox mb-1">
+              <input type="checkbox" id="check_dep" name="check_dep" class="custom-control-input"
+                (change)="resetFormField1($event)">
+              <label class="custom-control-label" for="check_dep">Department</label>
+            </div>
+            <div class="form-group">
+              <select name="department" id="department" class="form-control" [(ngModel)]="candidate.department"
+                required>
+                <option value="" selected="selected" disabled="disabled">Select Department </option>
+                <option *ngFor="let dept of department" value={{dept.dep_id}}>{{dept.dep_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="custom-control custom-checkbox mb-1">
+              <input type="checkbox" id="check_status" name="check_status" class="custom-control-input"
+                (change)="resetFormField1($event)">
+              <label class="custom-control-label" for="check_status">Status</label>
+            </div>
+            <div class="form-group">
+              <select name="status" id="status" class="form-control" [(ngModel)]="candidate.status" required>
+                <option value="" selected="selected" disabled="disabled">Select Status </option>
+                <option *ngFor="let stat of status" value={{stat.status_id}}>{{stat.status_name}}</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </div>
-   
-    </div>
 
-  </div>
-</form>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="custom-control custom-checkbox mb-1">
+              <input type="checkbox" id="check_stage" name="check_stage" class="custom-control-input"
+                (change)="resetFormField1($event)">
+              <label class="custom-control-label" for="check_stage">Stage</label>
+            </div>
+            <div class="form-group">
+              <select name="stage" id="stage" class="form-control" [(ngModel)]="candidate.stage" required>
+                <option value="" selected="selected" disabled="disabled">Select Stage </option>
+                <option *ngFor="let stag of stage" value={{stag.stage_id}}>{{stag.stage_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="custom-control custom-checkbox mb-1">
+              <input type="checkbox" id="check_date" name="check_date" class="custom-control-input"
+                (change)="resetFormField1($event)">
+              <label class="custom-control-label" for="check_date">Date</label>
+            </div>
+            <div class="form-group">
+              <div class="form-group">
+                <input type="date" name="date" class="form-control" id="date" aria-describedby="date"
+                  [(ngModel)]="candidate.date" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <button class="btn btn-primary" data-toggle="modal">Save</button> &nbsp;
+            <button class="btn btn-link" data-toggle="modal" (click)="resetForm()">Reset</button>
+            <button type="button" class="btn btn-link"><a routerLink="/cl-search">Back</a></button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </form>
 </div>
 
 
 <!--Edit Candidate Data-->
 <div class="container-fluid pt-3" *ngIf="showEditDataForm">
   <h3>Edit Data</h3>
-  <form #addNewCandidate="ngForm" ngNativeValidate (ngSubmit)="updateCandidateData(candidate.candidateId)" >
-<div class="row" >
-
-  <div class="col-lg-4">
-    <div class="upload text-center">
-      <span class="upload-text">
-        <i class="fa fa-files-o" aria-hidden="true"></i>
-        <br> Upload Resume
-      </span>
-      <input type="file" name="upload" id="upload" value="upload"  ng2FileSelect [uploader]="uploader" accept=".pdf"  (change)="fileEvent($event)"/>
-      <label>{{candidate.cv}}</label>
-    </div>
-  </div>
-
-  <div class="col-lg-8 bg-white p-4 shadow-sm">
-
+  <form #addNewCandidate="ngForm" ngNativeValidate (ngSubmit)="updateCandidateData(candidate.candidateId)">
     <div class="row">
-      <div class="col-lg-4">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" class="form-control" name="name" id="name" aria-describedby="name" [(ngModel)]="candidate.name" required>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="form-group">
-          <label for="phone">Phone</label>
-          <input type="tel" class="form-control" name="phone" id="phone" aria-describedby="phone" pattern="^\d{10}$" [(ngModel)]="candidate.phone" required title="Please add 10 digit mobile number">
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" name="email" id="email" aria-describedby="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"  [(ngModel)]="candidate.email" required>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
       <div class="col-lg-4">
-        <div class="form-group"> 
-            <label for="name">POsition</label>
-          <select name="position" id="position" class="form-control"  [(ngModel)]="candidate.position" name="position" required>
-              <option value="" disabled="disabled">Select Position </option>
-              <option *ngFor="let pos of position" value={{pos.position_id}}>{{pos.position_name}}</option>
-          </select>
+        <div class="uploadEdit text-center">
+          <span class="uploadEdit-text">
+            <i class="fa fa-files-o" aria-hidden="true"></i>
+            <br> Upload Resume
+          </span>
+          <input type="file" name="upload" id="upload" value="upload" ng2FileSelect [uploader]="uploader" accept=".pdf"
+            (change)="fileEvent($event)" />
+          <label>{{this.filename}}</label> <br><br>
+          <a class="btn btn-primary" href={{config+this.candidate.cv}} target="_blank">Preview Resume</a>
+         
         </div>
+        
       </div>
-      <div class="col-lg-4">
-        <div class="form-group">
-            <label for="name">Department</label>
-          <select name="department" id="department" class="form-control"  [(ngModel)]="candidate.department" required>
-              <option value="" selected="selected" disabled="disabled">Select Department </option>
-              <option *ngFor="let dept of department" value={{dept.dep_id}}>{{dept.dep_name}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="form-group">
-            <label for="name">Status</label>
-          <select name="status" id="status" class="form-control"  [(ngModel)]="candidate.status" required>
-              <option value="" selected="selected" disabled="disabled">Select Status </option>
-              <option *ngFor="let stat of status" value={{stat.status_id}}>{{stat.status_name}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="form-group">
-            <label for="name">Stage</label>
-          <select name="stage" id="stage" class="form-control"  [(ngModel)]="candidate.stage" required>
-              <option value="" selected="selected" disabled="disabled">Select Stage </option>
-              <option *ngFor="let stag of stage" value={{stag.stage_id}}>{{stag.stage_name}}</option>
-          </select>
+      <div class="col-lg-8 bg-white p-4 shadow-sm">
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" id="name" aria-describedby="name"
+                [(ngModel)]="candidate.name" (keyup)="firstCapital()" required>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" class="form-control" name="phone" id="phone" aria-describedby="phone" pattern="^\d{10}$"
+                [(ngModel)]="candidate.phone" required title="Please add 10 digit mobile number">
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="email" id="email" aria-describedby="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [(ngModel)]="candidate.email" (keyup)="EmailChange(candidate.email)" required>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4">
-          <div class="form-group">
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="name">POsition</label>
+              <select name="position" id="position" class="form-control" [(ngModel)]="candidate.position"
+                name="position" required>
+                <option value="" disabled="disabled">Select Position </option>
+                <option *ngFor="let pos of position" value={{pos.position_id}}>{{pos.position_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="name">Department</label>
+              <select name="department" id="department" class="form-control" [(ngModel)]="candidate.department"
+                required>
+                <option value="" selected="selected" disabled="disabled">Select Department </option>
+                <option *ngFor="let dept of department" value={{dept.dep_id}}>{{dept.dep_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="name">Status</label>
+              <select name="status" id="status" class="form-control" [(ngModel)]="candidate.status" required>
+                <option value="" selected="selected" disabled="disabled">Select Status </option>
+                <option *ngFor="let stat of status" value={{stat.status_id}}>{{stat.status_name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="name">Stage</label>
+              <select name="stage" id="stage" class="form-control" [(ngModel)]="candidate.stage" required>
+                <option value="" selected="selected" disabled="disabled">Select Stage </option>
+                <option *ngFor="let stag of stage" value={{stag.stage_id}}>{{stag.stage_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
               <label for="name">Date</label>
-            <input type="date" name="date" class="form-control" id="date" aria-describedby="date"  [(ngModel)]="candidate.date" required>
+              <input type="date" name="date" class="form-control" id="date" aria-describedby="date"
+                [(ngModel)]="candidate.date" required>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-lg-12">
-        <button class="btn btn-primary"  data-toggle="modal" >update</button>
-        <button type="button" class="btn btn-link"><a routerLink = "/cl-search">Cancel</a></button>
-      </div>
-    </div>
- 
-  </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <button class="btn btn-primary" data-toggle="modal">Update</button>
+            <button type="button" class="btn btn-link"><a routerLink="/cl-search">Back</a></button>
+          </div>
+        </div>
 
-</div>
-</form>
+      </div>
+
+    </div>
+  </form>
 </div>
 
 <!-- Edit Candidate Data-->
 
 <!-- Modal data-target="#exampleModalCenter"-->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h1><i class="fa fa-check-circle text-success" aria-hidden="true"></i></h1>
+        <strong>Record Saved</strong>
+      </div>
+      <div class="modal-footer align-middle">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Modal data-target="#exampleModalCenter"-->
+<!-- <div class="modal fade" id="editSuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -232,7 +271,4 @@
       </div>
     </div>
   </div>
-</div>
-
-
-
+</div> -->

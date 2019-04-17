@@ -4,6 +4,7 @@ import { CandidateLookupService } from 'src/app/services/candidate-lookup.servic
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import * as myGlobals from 'src/app/models/global';
 import { Router } from '@angular/router';
+import { ConfigDataService } from 'src/app/services/config-data.service';
 declare var $: any;
 
 @Component({
@@ -26,6 +27,8 @@ export class AddNewCandidateComponent implements OnInit {
   editcandidateId: any;
   showEditDataForm = false;
   editCandidate: any;
+  config: any;
+  checkcandidate: any;
 
 
 
@@ -33,7 +36,7 @@ export class AddNewCandidateComponent implements OnInit {
   //pass in the Url to be uploaded to, and pass the itemAlais, which would be the name of the //file input when sending the post request.
   public uploader: FileUploader = new FileUploader({ url: myGlobals.tool_API + 'upload', itemAlias: 'upload' });
 
-  constructor(private candidateLookupService: CandidateLookupService, private el: ElementRef, private router: Router) {
+  constructor(private candidateLookupService: CandidateLookupService, private el: ElementRef, private router: Router, private configDataService: ConfigDataService) {
     this.candidate = new Candidate();
     this.candidate.position = "";
     this.candidate.department = "";
@@ -43,8 +46,9 @@ export class AddNewCandidateComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
     this.loaddata();
+    this.configFileData();
+    this.checkcandidate = '';
     this.editcandidateId = localStorage.getItem('EditCandidateId');
     if (this.editcandidateId != null) {
       this.editCLData(this.editcandidateId);
@@ -63,6 +67,38 @@ export class AddNewCandidateComponent implements OnInit {
       console.log("ImageUpload:uploaded:", item, status, response);
     };
   }
+  // 3 Capitalize string every 1st chacter of word to uppercase
+  firstCapital() {
+    let str = $('#name').val();
+    let spart = str.split(" ");
+    for (var i = 0; i < spart.length; i++) {
+      var j = spart[i].charAt(0).toUpperCase();
+      spart[i] = j + spart[i].substr(1);
+    }
+    // $('name').val(spart.join(" "));
+    this.candidate.name = spart.join(" ");
+
+    //   return str.charAt(0).toUpperCase() + str.slice(1);
+
+  }
+  EmailChange(email: string) {
+    this.candidate.email = this.candidate.email.toLowerCase();
+  }
+  configFileData() {
+    if (localStorage.getItem('userid')) {
+      this.configDataService.configData().subscribe((response) => {
+        const bodyArray: [] = JSON.parse(response["_body"]);
+        bodyArray.forEach(element => {
+          this.config = element['config_value'];
+          return;
+        });
+        //console.log(this.configArray);
+
+      }, (error) => {
+        console.log(error);
+      })
+    }
+  }
   loaddata() {
     this.candidateLookupService.getCLdata().subscribe((response) => {
       this.stage = JSON.parse(response["_body"]).stages;
@@ -75,31 +111,43 @@ export class AddNewCandidateComponent implements OnInit {
     })
   }
   addCandidate() {
-    //this.uploader.uploadAll();
-    //locate the file element meant for the file upload.
-    let inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#upload');
-    //get the total amount of files attached to the file input.
-    let fileCount: number = inputEl.files.length;
-    //create a new fromdata instance
-    let formData = new FormData();
-    let file = null;
-    //check if the filecount is greater than zero, to be sure a file was selected.
-    if (fileCount > 0) { // a file was selected
-      //append the key name 'photo' with the first file in the element
-      // formData.append('upload', inputEl.files.item(0));
-      file = inputEl.files.item(0);
-    }
-    this.candidateLookupService.addCandidate(this.candidate).subscribe((response) => {
 
-      const candidateId = JSON.parse(response["_body"])[0].id;
-      // this.uploader.uploadAll();
-      this.uploadFileToServer(file, candidateId, this.candidate.name);
-      console.log('respose is' + candidateId);
-      this.resetFormField();
-    }, (error) => {
-      console.log('error is' + error);
+    this.candidateLookupService.CheckDuplicate(this.candidate.email, this.candidate.phone).subscribe((response) => {
+      this.checkcandidate = JSON.parse(response["_body"])[0];
+      if (this.checkcandidate != null) {
+        const checkcandidatePhone = JSON.parse(response["_body"])[0].phone;
+        const checkcandidateEmail = JSON.parse(response["_body"])[0].email_id;
+        alert('Candidate email: '+checkcandidateEmail + ' & Phone: '+ checkcandidatePhone + ' already exists');
+      }
+      else {
+        //this.uploader.uploadAll();
+        //locate the file element meant for the file upload.
+        let inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#upload');
+        //get the total amount of files attached to the file input.
+        let fileCount: number = inputEl.files.length;
+        //create a new fromdata instance
+        let formData = new FormData();
+        let file = null;
+        //check if the filecount is greater than zero, to be sure a file was selected.
+        if (fileCount > 0) { // a file was selected
+          //append the key name 'photo' with the first file in the element
+          // formData.append('upload', inputEl.files.item(0));
+          file = inputEl.files.item(0);
+        }
+        this.candidateLookupService.addCandidate(this.candidate).subscribe((response) => {
+
+          const candidateId = JSON.parse(response["_body"])[0].id;
+          // this.uploader.uploadAll();
+          this.uploadFileToServer(file, candidateId, this.candidate.name);
+          console.log('respose is' + candidateId);
+          this.resetFormField();
+        }, (error) => {
+          console.log('error is' + error);
+        })
+
+      }
+
     })
-
   }
   editCLData(editcandidateId) {
     this.candidateLookupService.editCandidate(editcandidateId).subscribe((response) => {
@@ -118,10 +166,9 @@ export class AddNewCandidateComponent implements OnInit {
     var month = (mm < 10) ? '0' + mm : mm;
     var dd = (date.getDate());
     var day = (dd < 10) ? '0' + dd : dd;
-    return date.getFullYear() + '-' + month + '-' + day ;
+    return date.getFullYear() + '-' + month + '-' + day;
   }
   updateCandidateData(updateCandidateId) {
-
     let inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#upload');
     //get the total amount of files attached to the file input.
 
@@ -134,26 +181,38 @@ export class AddNewCandidateComponent implements OnInit {
       //append the key name 'photo' with the first file in the element
       // formData.append('upload', inputEl.files.item(0));
       file = inputEl.files.item(0);
+      const curdate = new Date();
+      this.candidate.date = this.getFormattedDate(curdate);
       this.candidateLookupService.updateCandidate(this.candidate).subscribe((response) => {
 
         //const candidateId = this.candidate.candidateId;
         // this.uploader.uploadAll();
-        this.uploadFileToServer(file, updateCandidateId, this.candidate.name);
+        this.uploadUpdatedFileToServer(file, updateCandidateId, this.candidate.name);
+
+        const fileExtension = this.candidate.cv.substr((this.candidate.cv.lastIndexOf('.') + 1));
+        this.candidate.cv = this.candidate.candidateId + "_" + this.candidate.name + "." + fileExtension;
+
         console.log('respose is' + updateCandidateId);
         //this.resetFormField();
       }, (error) => {
         console.log('error is' + error);
       })
-    
-    }
 
+    }
     else {
+      debugger;
       // this.candidate.cv = 
       const fileExtension = this.candidate.cv.substr((this.candidate.cv.lastIndexOf('.') + 1));
       this.candidate.cv = this.candidate.candidateId + "_" + this.candidate.name + "." + fileExtension;
-     // console.log(fileExtension);
+      // console.log(fileExtension);
       this.candidateLookupService.updateCandidate(this.candidate).subscribe((response) => {
-        $('#exampleModalCenter').modal('show');
+        //$('#editSuccessModal').modal('show');
+        $.notify(
+          'Record Edited Successfully', 'success',
+          {
+            position: 'top centre'
+          }
+        );
       }, (error) => {
         console.log('error is' + error);
       })
@@ -170,14 +229,44 @@ export class AddNewCandidateComponent implements OnInit {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
           //alert('file uploaded');
-          $('#exampleModalCenter').modal('show');
+          // $('#exampleModalCenter').modal('show');
+          $.notify(
+            'Record Saved Successfully', 'success',
+            { position: 'top centre' }
+          );
         } else {
           alert('file not uploaded');
         }
       }
     }
-    //xhr.open("POST", "http://localhost:3000/api/upload?id=" + id + "&name=" + name, true);
-    xhr.open("POST", " http://10.0.9.21:3000/api/upload?id=" + id + "&name=" + name, true);
+    xhr.open("POST", myGlobals.tool_API + "upload?id=" + id + "&name=" + name, true);
+    //xhr.open("POST", " http://10.0.9.21:3000/api/upload?id=" + id + "&name=" + name, true);
+    xhr.send(formData);
+  }
+  uploadUpdatedFileToServer(file, id, name) {
+    var formData: any = new FormData();
+    var xhr = new XMLHttpRequest();
+
+    //file.name = "testing";
+    formData.append("upload", file, file.name);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          //alert('file uploaded');
+          // $('#editSuccessModal').modal('show');
+          $.notify(
+            'Record Edited Successfully', 'success',
+            {
+              position: 'top centre'
+            }
+          );
+        } else {
+          alert('file not uploaded');
+        }
+      }
+    }
+    xhr.open("POST", myGlobals.tool_API + "upload?id=" + id + "&name=" + name, true);
+    //xhr.open("POST", " http://10.0.9.21:3000/api/upload?id=" + id + "&name=" + name, true);
     xhr.send(formData);
   }
   resetFormField() {
@@ -245,5 +334,8 @@ export class AddNewCandidateComponent implements OnInit {
     let file = event.target.files[0];
     this.filename = file.name;
   }
-
+  resetForm() {
+    this.filename = '';
+    (<HTMLFormElement>document.getElementById("addCandidateForm")).reset();
+  }
 }

@@ -137,6 +137,19 @@ div.upload {
     box-shadow: 0px 0px 2px 2px rgba(236, 236, 236, 0.2);
 }
 
+div.uploadEdit {
+    width: 100%;
+    min-height: 155px !important;
+    height: 75%;
+    text-align: center;
+    border: 2px dashed #969696;
+    cursor: pointer;
+    background-position: center;
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(236, 236, 236, 0.2);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(236, 236, 236, 0.2);
+    box-shadow: 0px 0px 2px 2px rgba(236, 236, 236, 0.2);
+}
+
 .upload-text {
     font-size: 18px;
     line-height: 27px;
@@ -147,6 +160,22 @@ div.upload {
     left: 0;
     right: 0;
     cursor: pointer;
+}
+.uploadEdit-text {
+    font-size: 18px;
+    line-height: 27px;
+    position: absolute;
+    top: 25%;
+    color: #5d7779;
+    //bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.uploadEdit-text i {
+    color: #24385b;
+    font-size: 36px;
 }
 
 .upload-text i {
@@ -163,4 +192,25 @@ div.upload input {
     overflow: hidden !important;
     cursor: pointer;
     background-color: #f7f7f7 !important;
+}
+div.uploadEdit input {
+    display: block !important;
+    width: 100% !important;
+    min-height: 150px !important;
+    height: 100%;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    cursor: pointer;
+    background-color: #f7f7f7 !important;
+}
+.btn-primary {
+    color: #fff !important;
+}
+#exampleModalCenter a, #editSuccessModal a {
+    color: #fff !important;
+}
+.record-count {
+    float: right;
+    font-weight: bold;
+    margin-bottom: 10px;
 }

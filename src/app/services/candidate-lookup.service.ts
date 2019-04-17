@@ -11,25 +11,31 @@ import { Candidate } from '../models/candidate-model';
 export class CandidateLookupService {
   queryUrl: string = '?search=';
   constructor(private http: Http) { }
-  searchCandidate(term){
-    return this.http.get(myGlobals.tool_API + 'candidateLookupSearch?search='+term);
+  searchCandidate(term) {
+    return this.http.get(myGlobals.tool_API + 'candidateLookupSearch?search=' + term);
   }
-  getCLdata(){
+  pagignation(term) {
+    return this.http.get(myGlobals.tool_API + 'pagignation?search=' + term);
+  }
+  getCLdata() {
     return this.http.get(myGlobals.tool_API + 'getCLdata');
   }
-  addCandidate(candidateData){
+  CheckDuplicate(candidateEmail, candidatePhone){
+    return this.http.get(myGlobals.tool_API + 'checkDuplicate?candidateEmail=' + candidateEmail+'&candidatePhone=' + candidatePhone);
+  }
+  addCandidate(candidateData) {
     return this.http.post(myGlobals.tool_API + 'addcandidateLookup', candidateData);
   }
-  editCandidate(CandidateId)
-  {
-    return this.http.get(myGlobals.tool_API + 'editCandidateData?candidate='+CandidateId);
+  editCandidate(CandidateId) {
+    return this.http.get(myGlobals.tool_API + 'editCandidateData?candidate=' + CandidateId);
   }
-  updateCandidate(EditCandidateData)
-  {
-    return this.http.post(myGlobals.tool_API + 'updateEditCandidateData', EditCandidateData)
+  updateCandidate(EditCandidateData) {
+    return this.http.post(myGlobals.tool_API + 'updateEditCandidateData', EditCandidateData);
   }
-  deleteCandidate(deleteCandidateId)
-  {
-    return this.http.post(myGlobals.tool_API + 'deleteCandidate' , deleteCandidateId)
+  deleteCandidate(deleteCandidateId) {
+    return this.http.post(myGlobals.tool_API + 'deleteCandidate', deleteCandidateId);
+  }
+  getresume(cv) {
+    return this.http.get(myGlobals.tool_API + 'getResume?cv=' + cv);
   }
 }

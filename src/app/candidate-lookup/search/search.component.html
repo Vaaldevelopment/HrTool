@@ -18,6 +18,7 @@
 
 <div class="row" *ngIf="results">
   <div class="col-lg-8 offset-lg-2">
+    <span class="record-count"><b>Record Count - {{this.rowcount}}</b></span> 
     <div class="table">
       <table class="table">
         <thead class="thead-dark">
@@ -34,21 +35,52 @@
         </thead>
         <tbody>
           <tr *ngFor="let result of results">
-            <td> <a href="{{ result.first_name }}" target="_blank">{{ result.first_name }}</a></td>
+            <!-- <td> <a href="{{ result.first_name }}" target="_blank">{{ result.first_name }}</a></td> -->
+            <td> {{ result.first_name }}</td>
             <td>{{ result.position_name }}</td>
             <td>{{ result.dep_name }}</td>
             <td>{{ result.status_name }}</td>
             <td>{{ result.stage_name }}</td>
             <td>{{ result.date | date }}</td>
-            <!-- <td><a href="#!" class="btn btn-outline-dark"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                {{ config + result.cv }} </a></td> -->
-                <td><a href="#!"class=""  data-toggle="modal" data-target="#myModal"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> </a></td>
-            <td><a (click)="editCandidate(result.candidate_id)" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i></a> | <a
-              (click)="deleteCandidate(result)" class="btn btn-outline-danger"> <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+            <td><a href={{config+result.cv}} class="btn btn-outline-dark" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
+            <!-- <td><a href="#!" class="" data-toggle="modal" data-target="#myModal" (click)="getResume(result)"><i
+                  class="fa fa-file-pdf-o" aria-hidden="true"></i> </a></td> -->
+            <td><button (click)="editCandidate(result.candidate_id)" class="btn btn-outline-dark"><i class="fa fa-pencil"
+                  aria-hidden="true"></i></button> |
+              <button (click)="deleteCandidate(result)" class="btn btn-outline-danger"> <i class="fa fa-trash"
+                  aria-hidden="true"></i></button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <dx-data-grid
+            #grid
+            id="gridContainer"
+            [dataSource]="results"
+            [selectedRowKeys]="[]"
+            [showBorders]="true">
+            <dxi-column dataField="first_name" caption="Name"></dxi-column>
+            <dxi-column dataField="position_name" caption="Positions"></dxi-column>
+            <dxi-column dataField="dep_name" caption="Department"></dxi-column>
+            <dxi-column dataField="status_name" caption="Status"></dxi-column>
+            <dxi-column dataField="stage_name" caption="Stage"></dxi-column>
+            <dxi-column dataField="date" caption="Date" dataType = "date" format = "dd-MM-yyyy" ></dxi-column>
+            <dxi-column caption="Resume" cellTemplate="ViewResume"></dxi-column>
+            <div *dxTemplate="let data of 'ViewResume'" class="text-center">
+              <a href={{config+cv}} class="btn btn-outline-dark" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+            </div>
+            <dxi-column caption="Action" cellTemplate="ViewIconTemplate"></dxi-column>
+            <div *dxTemplate="let data of 'ViewIconTemplate'" class="text-center">
+              <button (click)="editCandidate(candidate_id)" class="btn btn-outline-dark"><i class="fa fa-pencil"
+                  aria-hidden="true"></i></button> |
+              <button (click)="deleteCandidate(results)" class="btn btn-outline-danger"> <i class="fa fa-trash"
+                  aria-hidden="true"></i></button>
+            </div>
+            <dxo-paging [pageSize]="2"></dxo-paging>
+          </dx-data-grid>
+
   </div>
 </div>
 
@@ -59,16 +91,19 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4> 
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-<!-- <iframe src="http://docs.google.com/gview?url=https://www.sigmanest.com/Downloads/test.docx&embedded=true" 
+          <!-- <iframe src="http://docs.google.com/gview?url=//MVT094/PDFSave/14_nnnn.docx" 
 style="width:750px; height:600px;" frameborder="0"></iframe> -->
 
-<iframe src="http://10.0.9.21/hrtool/uploads/Test.pdf" style="width:750px; height:600px;" frameborder="0"></iframe>
-</div>
+          <iframe src="{{resumePath}}" height="750px" width="600px"></iframe>
+
+
+          <!-- <iframe src="http://10.0.9.21/hrtool/uploads/Test.pdf" style="width:750px; height:600px;" frameborder="0"></iframe> -->
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -78,7 +113,7 @@ style="width:750px; height:600px;" frameborder="0"></iframe> -->
 </div>
 
 <!-- Modal data-target="#exampleModalCenter"-->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -87,8 +122,8 @@ style="width:750px; height:600px;" frameborder="0"></iframe> -->
         <strong>Record Deleted</strong>
       </div>
       <div class="modal-footer align-middle">
-        <button type="button" class="btn btn-primary" data-dismiss="modal"><a routerLink = "/cl-search">Okay</a></button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><a routerLink="/cl-search">Okay</a></button>
       </div>
     </div>
   </div>
-</div>
+</div> -->
