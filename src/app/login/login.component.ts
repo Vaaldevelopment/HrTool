@@ -109,7 +109,8 @@ export class LoginComponent implements OnInit {
                 alert('Login Failed, Please check User Name and Password.');
                 break;
               case 'HR':
-                this.router.navigate(['/hr-dashboard']);
+               // this.router.navigate(['/hr-dashboard']);
+               this.router.navigate(['/cl-search']);
                 break;
               case 'MGR':
                 this.router.navigate(['/m-dashboard']);

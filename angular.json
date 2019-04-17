@@ -36,7 +36,9 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/notify.min.js",
+              "src/assets/js/notify.js"
             ]
           },
           "configurations": {
@@ -86,7 +88,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/notify.min.js",
+              "src/assets/js/notify.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
