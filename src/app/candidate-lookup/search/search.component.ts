@@ -19,6 +19,7 @@ export class SearchComponent implements OnInit {
   resumePath: any;
   rowcount:any;
   resultsPag: any;
+  totalrecord: any;
 
   constructor(private candidateLookupService: CandidateLookupService, private configDataService: ConfigDataService, private router: Router,
     private sanitizer: DomSanitizer
@@ -28,9 +29,24 @@ export class SearchComponent implements OnInit {
   }
   ngOnInit() {
     this.configFileData();
+    this.totalrecored();
     ///this.resumePath = 'http://google.com';
     //this.sanitizer = 
   }
+  totalrecored(){
+    this.candidateLookupService.totalRecord().subscribe((response) => {
+      this.totalrecord = JSON.parse(response["_body"])[0].totalrecord;
+      // bodyArray.forEach(element => {
+      //   this.totalrecord = element['totalrecord'];
+      //   return;
+      // });
+      //console.log(this.configArray);
+
+    }, (error) => {
+      console.log(error);
+    })
+  }
+  
   loadData() {
     this.candidateLookupService.searchCandidate(this.searchTerm)
       .subscribe(response => {
@@ -41,13 +57,13 @@ export class SearchComponent implements OnInit {
         console.log('error is' + error);
       });
 
-    this.candidateLookupService.pagignation(this.searchTerm).subscribe(response => {
-      this.resultsPag = JSON.parse(response["_body"])[0];
-      //this.rowcount =this.results.length;
-      console.log('respose is' + this.resultsPag);
-    }, (error) => {
-      console.log('error is' + error);
-    });
+    // this.candidateLookupService.pagignation(this.searchTerm).subscribe(response => {
+    //   this.resultsPag = JSON.parse(response["_body"]);
+    //   //this.rowcount =this.results.length;
+    //   console.log('respose is' + this.resultsPag);
+    // }, (error) => {
+    //   console.log('error is' + error);
+    // });
   }
 
   configFileData() {

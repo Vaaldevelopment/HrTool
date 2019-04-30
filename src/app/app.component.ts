@@ -18,8 +18,11 @@ export class AppComponent {
     // else{
     //   this.showHeader = false;
     // }
+    this.ClearEditCandidateId();
   }
-
+  ClearEditCandidateId() {
+    localStorage.removeItem('EditCandidateId');
+  }
   checkUserToken() {
     if (localStorage.getItem('userid')) {
       return true;

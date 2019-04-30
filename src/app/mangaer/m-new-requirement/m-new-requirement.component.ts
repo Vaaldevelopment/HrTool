@@ -121,7 +121,6 @@ export class MNewRequirementComponent implements OnInit {
   
   
   getPresets() {
-    debugger;
     this.newRequirementService.getPresets(this.newRequirement).subscribe((response) => {
       if(response){
       this.presets = JSON.parse(response["_body"]);
