@@ -1,4 +1,5 @@
 <div class="container-fluid pt-3" *ngIf="!showEditDataForm">
+  <h3>Add Candidate</h3>
   <form #addNewCandidate="ngForm" ngNativeValidate (ngSubmit)="addCandidate()" id="addCandidateForm">
     <div class="row">
 
@@ -35,7 +36,8 @@
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" class="form-control" name="email" id="email" aria-describedby="email"
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [(ngModel)]="candidate.email" (ngModelChange)="EmailChange(candidate.email)" required>
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [(ngModel)]="candidate.email"
+                (ngModelChange)="EmailChange(candidate.email)" required>
             </div>
           </div>
         </div>
@@ -134,7 +136,7 @@
   <form #addNewCandidate="ngForm" ngNativeValidate (ngSubmit)="updateCandidateData(candidate.candidateId)">
     <div class="row">
 
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="uploadEdit text-center">
           <span class="uploadEdit-text">
             <i class="fa fa-files-o" aria-hidden="true"></i>
@@ -143,13 +145,18 @@
           <input type="file" name="upload" id="upload" value="upload" ng2FileSelect [uploader]="uploader" accept=".pdf"
             (change)="fileEvent($event)" />
           <label>{{this.filename}}</label> <br><br>
-          <a class="btn btn-primary" href={{config+this.candidate.cv}} target="_blank">Preview Resume</a>
-         
+          <div *ngIf="!previewPdf">
+            <a class="btn btn-primary" href={{config+this.candidate.cv}} target="_blank">Preview Resume</a>
+          </div>
+          <div *ngIf="previewPdf">
+            <iframe [src]= "trustedDashboardUrl" style="width:100%; height:600px;"
+              frameborder="0"></iframe>
+          </div>
         </div>
-        
+
       </div>
 
-      <div class="col-lg-8 bg-white p-4 shadow-sm">
+      <div class="col-lg-6 bg-white p-4 shadow-sm">
 
         <div class="row">
           <div class="col-lg-4">
@@ -170,7 +177,8 @@
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" class="form-control" name="email" id="email" aria-describedby="email"
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [(ngModel)]="candidate.email" (keyup)="EmailChange(candidate.email)" required>
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [(ngModel)]="candidate.email"
+                (keyup)="EmailChange(candidate.email)" required>
             </div>
           </div>
         </div>
@@ -242,20 +250,22 @@
 <!-- Edit Candidate Data-->
 
 <!-- Modal data-target="#exampleModalCenter"-->
-<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
         <h1><i class="fa fa-check-circle text-success" aria-hidden="true"></i></h1>
-        <strong>Record Saved</strong>
+        <strong>{{alertMsg}}</strong>
       </div>
       <div class="modal-footer align-middle">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          (click)=editDuplicateCandidate(this.duplicateCandidateId)>Edit Record</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-</div> -->
+</div>
 
 <!-- Modal data-target="#exampleModalCenter"-->
 <!-- <div class="modal fade" id="editSuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"

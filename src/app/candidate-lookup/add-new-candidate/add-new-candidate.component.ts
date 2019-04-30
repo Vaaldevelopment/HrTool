@@ -5,6 +5,7 @@ import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-uplo
 import * as myGlobals from 'src/app/models/global';
 import { Router } from '@angular/router';
 import { ConfigDataService } from 'src/app/services/config-data.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 declare var $: any;
 
 @Component({
@@ -12,6 +13,8 @@ declare var $: any;
   templateUrl: './add-new-candidate.component.html',
   styleUrls: ['./add-new-candidate.component.scss']
 })
+
+
 export class AddNewCandidateComponent implements OnInit {
   candidate: Candidate;
   stage = [];
@@ -29,6 +32,11 @@ export class AddNewCandidateComponent implements OnInit {
   editCandidate: any;
   config: any;
   checkcandidate: any;
+  alertMsg: any;
+  duplicateCandidateId: any;
+  candidatecv: any;
+  previewPdf = false;
+  trustedDashboardUrl: SafeUrl;
 
 
 
@@ -36,7 +44,7 @@ export class AddNewCandidateComponent implements OnInit {
   //pass in the Url to be uploaded to, and pass the itemAlais, which would be the name of the //file input when sending the post request.
   public uploader: FileUploader = new FileUploader({ url: myGlobals.tool_API + 'upload', itemAlias: 'upload' });
 
-  constructor(private candidateLookupService: CandidateLookupService, private el: ElementRef, private router: Router, private configDataService: ConfigDataService) {
+  constructor(private candidateLookupService: CandidateLookupService, private el: ElementRef, private router: Router, private configDataService: ConfigDataService, private sanitizer: DomSanitizer) {
     this.candidate = new Candidate();
     this.candidate.position = "";
     this.candidate.department = "";
@@ -49,6 +57,14 @@ export class AddNewCandidateComponent implements OnInit {
     this.loaddata();
     this.configFileData();
     this.checkcandidate = '';
+    this.setEditCandidate();
+  }
+
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  setEditCandidate() {
     this.editcandidateId = localStorage.getItem('EditCandidateId');
     if (this.editcandidateId != null) {
       this.editCLData(this.editcandidateId);
@@ -87,11 +103,12 @@ export class AddNewCandidateComponent implements OnInit {
   configFileData() {
     if (localStorage.getItem('userid')) {
       this.configDataService.configData().subscribe((response) => {
-        const bodyArray: [] = JSON.parse(response["_body"]);
-        bodyArray.forEach(element => {
-          this.config = element['config_value'];
-          return;
-        });
+        this.config = JSON.parse(response["_body"])[0].config_value;
+        debugger;
+        // bodyArray.forEach(element => {
+        //   this.config = element['config_value'];
+        //   return;
+        // });
         //console.log(this.configArray);
 
       }, (error) => {
@@ -115,9 +132,24 @@ export class AddNewCandidateComponent implements OnInit {
     this.candidateLookupService.CheckDuplicate(this.candidate.email, this.candidate.phone).subscribe((response) => {
       this.checkcandidate = JSON.parse(response["_body"])[0];
       if (this.checkcandidate != null) {
+        this.duplicateCandidateId = JSON.parse(response["_body"])[0].candidate_id;
         const checkcandidatePhone = JSON.parse(response["_body"])[0].phone;
         const checkcandidateEmail = JSON.parse(response["_body"])[0].email_id;
-        alert('Candidate email: '+checkcandidateEmail + ' & Phone: '+ checkcandidatePhone + ' already exists');
+        if (checkcandidatePhone == this.candidate.phone && checkcandidateEmail == this.candidate.email) {
+          this.alertMsg = 'Candidate with Email: ' + checkcandidateEmail + ' & Phone: ' + checkcandidatePhone + ' already exists';
+          $('#exampleModalCenter').modal('show');
+        }
+        else {
+          if (checkcandidatePhone == this.candidate.phone) {
+            this.alertMsg = 'Candidate with Phone: ' + checkcandidatePhone + ' already exists';
+            $('#exampleModalCenter').modal('show');
+          }
+          if (checkcandidateEmail == this.candidate.email) {
+            this.alertMsg = 'Candidate with Email: ' + checkcandidateEmail + ' already exists';
+            $('#exampleModalCenter').modal('show');
+          }
+
+        }
       }
       else {
         //this.uploader.uploadAll();
@@ -149,16 +181,38 @@ export class AddNewCandidateComponent implements OnInit {
 
     })
   }
+  editDuplicateCandidate(id) {
+    this.filename = "";
+    localStorage.setItem('EditCandidateId', id);
+    console.log(localStorage.getItem('EditCandidateId'));
+    this.setEditCandidate();
+    //this.editCLData(id);
+  }
   editCLData(editcandidateId) {
+    debugger;
     this.candidateLookupService.editCandidate(editcandidateId).subscribe((response) => {
       this.candidate = JSON.parse(response["_body"]);
       this.candidate.date = this.getFormattedDate(this.candidate.date);
+      this.candidate.cv = JSON.parse(response["_body"]).cv;
+      console.log(this.config);
+      if (this.candidate.cv.endsWith(".pdf")) {
+        this.previewPdf = true;
+        this.trustedDashboardUrl =
+          this.sanitizer.bypassSecurityTrustResourceUrl
+            (this.config + this.candidate.cv);
+
+      }
+      else {
+        this.previewPdf = false;
+      }
+
       // this.uploader.uploadAll();
       //this.uploadFileToServer(file, candidateId, this.candidate.name);
       console.log('respose is' + this.candidate);
     }, (error) => {
       console.log('error is' + error);
     })
+    //this.convertpdf('6_Aaaa');
   }
   getFormattedDate(dateString) {
     var date = new Date(dateString);
@@ -337,5 +391,17 @@ export class AddNewCandidateComponent implements OnInit {
   resetForm() {
     this.filename = '';
     (<HTMLFormElement>document.getElementById("addCandidateForm")).reset();
+  }
+  convertpdf(name) {
+    debugger;
+    this.candidateLookupService.editCandidate(name).subscribe((response) => {
+      this.candidatecv = JSON.parse(response["_body"]);
+      this.candidate.date = this.getFormattedDate(this.candidate.date);
+      // this.uploader.uploadAll();
+      //this.uploadFileToServer(file, candidateId, this.candidate.name);
+      console.log('respose is' + this.candidate);
+    }, (error) => {
+      console.log('error is' + error);
+    })
   }
 }

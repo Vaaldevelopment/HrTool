@@ -11,6 +11,9 @@ import { Candidate } from '../models/candidate-model';
 export class CandidateLookupService {
   queryUrl: string = '?search=';
   constructor(private http: Http) { }
+  totalRecord(){
+    return this.http.get(myGlobals.tool_API + 'totalrecord');
+  }
   searchCandidate(term) {
     return this.http.get(myGlobals.tool_API + 'candidateLookupSearch?search=' + term);
   }
@@ -37,5 +40,8 @@ export class CandidateLookupService {
   }
   getresume(cv) {
     return this.http.get(myGlobals.tool_API + 'getResume?cv=' + cv);
+  }
+  convertpdf(cv){
+    return this.http.get(myGlobals.tool_API + 'convertpdf?cv=' + cv);
   }
 }
