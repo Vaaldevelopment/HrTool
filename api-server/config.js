@@ -52,10 +52,10 @@ var con;
 
 
 function handleDisconnect() {
- // con = mysql.createConnection(db_config); // Recreate the connection, since
+  // con = mysql.createConnection(db_config); // Recreate the connection, since
   // the old one cannot be reused.
- con = mysql.createConnection(db_config);
-var queryAsync = Promise.promisify(con.query.bind(con));
+  con = mysql.createConnection(db_config);
+  var queryAsync = Promise.promisify(con.query.bind(con));
 
   con.connect(function (err) {              // The server is either down
     if (err) {                                     // or restarting (takes a while sometimes).
@@ -471,11 +471,11 @@ router.post('/deleteRequirement', function (req, res) {
 
 router.get('/totalrecord', function (req, res) {
   //createNewConnection();
-var sql = "SELECT COUNT(*) as totalrecord from candidate";
-con.query(sql, function (err, result){
-  if(err) throw err;
-  res.send(result);
-})
+  var sql = "SELECT COUNT(*) as totalrecord from candidate";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    res.send(result);
+  })
 })
 
 router.get('/candidateLookupSearch/', function (req, res) {
@@ -486,7 +486,7 @@ router.get('/candidateLookupSearch/', function (req, res) {
   }
   else {
     var sql = "SELECT candidate.candidate_id, candidate.first_name, candidate.phone, candidate.email_id, candidate.date, candidate.cv, department.dep_name, position.position_name, stage.stage_name, status.status_name FROM candidate INNER JOIN department ON candidate.department_id = department.dep_id INNER JOIN position ON candidate.position_id = position.position_id INNER JOIN candidate_stage_status ON candidate.stage_status_id = candidate_stage_status.candidate_stage_status_id INNER JOIN stage ON candidate_stage_status.stage_id = stage.stage_id INNER JOIN status ON candidate_stage_status.status_id = status.status_id WHERE candidate.first_name  Like ' '";
-     //console.log(sql);
+    //console.log(sql);
   }
   con.query(sql, function (err, result, fields) {
     if (err) throw err;
@@ -496,7 +496,7 @@ router.get('/candidateLookupSearch/', function (req, res) {
   })
 })
 
-router.get('/pagignation',function(req, res){
+router.get('/pagignation', function (req, res) {
   //createNewConnection();
   var numRows;
   var queryPagination;
@@ -510,34 +510,34 @@ router.get('/pagignation',function(req, res){
   limit = skip + ',' + numPerPage;
   console.log('Limit:', limit);
   queryAsync("SELECT count(*) as numRows FROM candidate WHERE candidate.first_name LIKE '" + req.query.search + "%'")
-  .then(function(results) {
-    numRows = results[0].numRows;
-    numPages = Math.ceil(numRows / numPerPage);
-    console.log('number of pages:', numPages);
-  })
-  .then(() => queryAsync("SELECT * FROM candidate WHERE candidate.first_name LIKE '" + req.query.search + "%' ORDER BY candidate_id DESC LIMIT "+ limit))
-  .then(function(results) {
-    var responsePayload = {
-      results: results
-    };
-    if (page < numPages) {
-      responsePayload.pagination = {
-        current: page,
-        perPage: numPerPage,
-        previous: page > 0 ? page - 1 : undefined,
-        next: page < numPages - 1 ? page + 1 : undefined
+    .then(function (results) {
+      numRows = results[0].numRows;
+      numPages = Math.ceil(numRows / numPerPage);
+      console.log('number of pages:', numPages);
+    })
+    .then(() => queryAsync("SELECT * FROM candidate WHERE candidate.first_name LIKE '" + req.query.search + "%' ORDER BY candidate_id DESC LIMIT " + limit))
+    .then(function (results) {
+      var responsePayload = {
+        results: results
+      };
+      if (page < numPages) {
+        responsePayload.pagination = {
+          current: page,
+          perPage: numPerPage,
+          previous: page > 0 ? page - 1 : undefined,
+          next: page < numPages - 1 ? page + 1 : undefined
+        }
       }
-    }
-    else responsePayload.pagination = {
-      err: 'queried page ' + page + ' is >= to maximum page number ' + numPages
-    }
-    console.log('Pages:', responsePayload);
-    res.send(responsePayload);
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.send({ err: err });
-  });
+      else responsePayload.pagination = {
+        err: 'queried page ' + page + ' is >= to maximum page number ' + numPages
+      }
+      console.log('Pages:', responsePayload);
+      res.send(responsePayload);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.send({ err: err });
+    });
 
 
 })
@@ -587,7 +587,7 @@ router.post('/addcandidateLookup', function (req, res) {
   //createNewConnection();
   //var sql ="INSERT INTO candidate(first_name, country_code, phone, email_id, department_id, position_id, date, cv) VALUES ('" + req.body.name + "','+91', '" + req.body.phone + "', '" + req.body.email + "', " + req.body.department + ", " + req.body.position + ", '" + req.body.date + "', '" + req.body.cv + "' )";
 
-  var sql = " INSERT INTO candidate(first_name, country_code, phone, email_id, department_id, position_id, date) VALUES ('" + req.body.name + "','+91', '" + req.body.phone + "', '" + req.body.email + "', " + req.body.department + ", " + req.body.position + ", '" + req.body.date + "' ); SET @last_id_in_candidate = LAST_INSERT_ID(); INSERT INTO candidate_stage_status(candidate_id, stage_id, status_id) VALUES(LAST_INSERT_ID(), " + req.body.stage + ", " + req.body.status + "); UPDATE candidate SET stage_status_id = LAST_INSERT_ID() WHERE candidate_id = @last_id_in_candidate ";
+  var sql = " INSERT INTO candidate(first_name, country_code, phone, email_id, department_id, position_id, date, total_exp, relevant_exp, current_ctc, expected_ctc, notice_period, current_company, current_location, reason_for_relocation, ssc_percentage, hsc_percentage, ug_percentage, pg_percentage, additional_comment ) VALUES ('" + req.body.name + "','+91', '" + req.body.phone + "', '" + req.body.email + "', " + req.body.department + ", " + req.body.position + ", '" + req.body.date + "', '" + req.body.totalExp + "', '" + req.body.relevantExp + "', '" + req.body.currentCTC + "', '" + req.body.expectedCTC + "', '" + req.body.noticePeriod + "', '" + req.body.currentCompany + "', '" + req.body.currentLocation + "', '" + req.body.reasonRelocation + "', '" + req.body.sscPercentage + "', '" + req.body.hscPercentage + "', '" + req.body.ugPercentage + "', '" + req.body.pgPercentage + "', '" + req.body.additionalComment + "' ); SET @last_id_in_candidate = LAST_INSERT_ID(); INSERT INTO candidate_stage_status(candidate_id, stage_id, status_id) VALUES(LAST_INSERT_ID(), " + req.body.stage + ", " + req.body.status + "); UPDATE candidate SET stage_status_id = LAST_INSERT_ID() WHERE candidate_id = @last_id_in_candidate ";
   //console.log(sql);
   con.query(sql, function (err, result, fields) {
     if (err) throw err;
@@ -644,7 +644,7 @@ router.post("/upload", upload.array('upload', 30), function (req, res) {
 
 router.get("/editCandidateData", function (req, res) {
   //createNewConnection();
-  var sql = "SELECT candidate.candidate_id as candidateId, candidate.first_name as name, candidate.phone, candidate.email_id as email, candidate.date, candidate.cv, candidate.department_id as department, candidate.position_id as position, candidate_stage_status.stage_id as stage, candidate_stage_status.status_id as status FROM candidate INNER JOIN department ON candidate.department_id = department.dep_id INNER JOIN position ON candidate.position_id = position.position_id INNER JOIN candidate_stage_status ON candidate.stage_status_id = candidate_stage_status.candidate_stage_status_id INNER JOIN stage ON candidate_stage_status.stage_id = stage.stage_id INNER JOIN status ON candidate_stage_status.status_id = status.status_id WHERE candidate.candidate_id =" + req.query.candidate + " LIMIT 1";
+  var sql = "SELECT candidate.candidate_id as candidateId, candidate.first_name as name, candidate.phone, candidate.email_id as email, candidate.date, candidate.cv, candidate.department_id as department, candidate.position_id as position, candidate.total_exp as totalExp, candidate.relevant_exp as relevantExp, candidate.current_ctc as currentCTC, candidate.expected_ctc as expectedCTC, candidate.notice_period as noticePeriod, candidate.current_company as currentCompany, candidate.current_location as currentLocation, candidate.reason_for_relocation as reasonRelocation, candidate.ssc_percentage as sscPercentage, candidate.hsc_percentage as hscPercentage, candidate.ug_percentage as ugPercentage, candidate.pg_percentage as pgPercentage, candidate.additional_comment as additionalComment, candidate_stage_status.stage_id as stage, candidate_stage_status.status_id as status  FROM candidate INNER JOIN department ON candidate.department_id = department.dep_id INNER JOIN position ON candidate.position_id = position.position_id INNER JOIN candidate_stage_status ON candidate.stage_status_id = candidate_stage_status.candidate_stage_status_id INNER JOIN stage ON candidate_stage_status.stage_id = stage.stage_id INNER JOIN status ON candidate_stage_status.status_id = status.status_id WHERE candidate.candidate_id =" + req.query.candidate + " LIMIT 1";
   con.query(sql, function (err, result, fields) {
     if (err) throw err;
     res.send(result[0]);
@@ -653,7 +653,7 @@ router.get("/editCandidateData", function (req, res) {
 })
 router.post("/updateEditCandidateData", function (req, res) {
   //createNewConnection();
-  var sql = "UPDATE `candidate` SET first_name='" + req.body.name + "', phone= '" + req.body.phone + "',email_id= '" + req.body.email + "',department_id= " + req.body.department + ",position_id= " + req.body.position + ",date= '" + req.body.date + "',cv='" + req.body.cv + "' WHERE candidate_id = " + req.body.candidateId + "; UPDATE candidate_stage_status SET stage_id=" + req.body.stage + ", status_id=" + req.body.status + " WHERE candidate_id = " + req.body.candidateId + "";
+  var sql = "UPDATE `candidate` SET first_name='" + req.body.name + "', phone= '" + req.body.phone + "',email_id= '" + req.body.email + "',department_id= " + req.body.department + ",position_id= " + req.body.position + ",date= '" + req.body.date + "',cv='" + req.body.cv + "', total_exp= '" + req.body.totalExp + "', relevant_exp= '" + req.body.relevantExp + "', current_ctc= '" + req.body.currentCTC + "', expected_ctc= '" + req.body.expectedCTC + "', notice_period= '" + req.body.noticePeriod + "', current_company= '" + req.body.currentCompany + "', current_location= '" + req.body.currentLocation + "', reason_for_relocation= '" + req.body.reasonRelocation + "', ssc_percentage= '" + req.body.sscPercentage + "', hsc_percentage= '" + req.body.hscPercentage + "', ug_percentage= '" + req.body.ugPercentage + "', pg_percentage= '" + req.body.pgPercentage + "', additional_comment= '" + req.body.additionalComment + "' WHERE candidate_id = " + req.body.candidateId + "; UPDATE candidate_stage_status SET stage_id=" + req.body.stage + ", status_id=" + req.body.status + " WHERE candidate_id = " + req.body.candidateId + "";
   //console.log(sql);
   con.query(sql, function (err, result) {
     if (err) throw err;
@@ -707,8 +707,8 @@ router.get("/convertpdf", function (req, res) {
   //   console.log('result'+result);
   //   res.send('result');
   // });
-  
- })
+
+})
 
 
 

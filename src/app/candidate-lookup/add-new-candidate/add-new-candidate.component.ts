@@ -104,7 +104,6 @@ export class AddNewCandidateComponent implements OnInit {
     if (localStorage.getItem('userid')) {
       this.configDataService.configData().subscribe((response) => {
         this.config = JSON.parse(response["_body"])[0].config_value;
-        debugger;
         // bodyArray.forEach(element => {
         //   this.config = element['config_value'];
         //   return;
@@ -128,7 +127,6 @@ export class AddNewCandidateComponent implements OnInit {
     })
   }
   addCandidate() {
-
     this.candidateLookupService.CheckDuplicate(this.candidate.email, this.candidate.phone).subscribe((response) => {
       this.checkcandidate = JSON.parse(response["_body"])[0];
       if (this.checkcandidate != null) {
@@ -189,7 +187,6 @@ export class AddNewCandidateComponent implements OnInit {
     //this.editCLData(id);
   }
   editCLData(editcandidateId) {
-    debugger;
     this.candidateLookupService.editCandidate(editcandidateId).subscribe((response) => {
       this.candidate = JSON.parse(response["_body"]);
       this.candidate.date = this.getFormattedDate(this.candidate.date);
@@ -254,7 +251,6 @@ export class AddNewCandidateComponent implements OnInit {
 
     }
     else {
-      debugger;
       // this.candidate.cv = 
       const fileExtension = this.candidate.cv.substr((this.candidate.cv.lastIndexOf('.') + 1));
       this.candidate.cv = this.candidate.candidateId + "_" + this.candidate.name + "." + fileExtension;
@@ -327,6 +323,20 @@ export class AddNewCandidateComponent implements OnInit {
     this.candidate.name = '';
     this.candidate.phone = '';
     this.candidate.email = '';
+    this.candidate.totalExp = '';
+    this.candidate.additionalComment = '';
+    this.candidate.currentCTC = '';
+    this.candidate.currentCompany = '';
+    this.candidate.currentLocation = '';
+    this.candidate.expectedCTC = '';
+    this.candidate.hscPercentage = '';
+    this.candidate.noticePeriod = '';
+    this.candidate.reasonRelocation = '';
+    this.candidate.relevantExp = '';
+    this.candidate.sscPercentage = '';
+    this.candidate.ugPercentage = '';
+    this.candidate.pgPercentage = '';
+
     //$("#upload").val('');
     (<HTMLInputElement>document.getElementById("upload")).value = '';
     this.filename = '';
@@ -393,7 +403,6 @@ export class AddNewCandidateComponent implements OnInit {
     (<HTMLFormElement>document.getElementById("addCandidateForm")).reset();
   }
   convertpdf(name) {
-    debugger;
     this.candidateLookupService.editCandidate(name).subscribe((response) => {
       this.candidatecv = JSON.parse(response["_body"]);
       this.candidate.date = this.getFormattedDate(this.candidate.date);
